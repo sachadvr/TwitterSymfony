@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+
+<div class="border border-black m-4 p-2">
+    <h1 class="
+    border-b-2 border-black pb-2 font-bold text-2xl
+    mb-5
+    "><i class="fab fa-twitter"></i> - 
+    Creer un compte</h1>
+
+    {{ form_start(registrationForm, {'attr': {'class': 'flex flex-col max-w-2xl m-5'}, 'enctype': 'multipart/form-data'})}}
+        {% if errors|length > 0 %}
+        <div class="p-5 border border-blue-500 text-blue-500 font-bold mb-5">
+        {% for error in errors %}
+            <div class="alert alert-danger">{{ error.message }}</div>
+        {% endfor %}
+        </div>
+        {% endif %}
+       
+        {{ form_widget(registrationForm.email) }}
+        {{ form_widget(registrationForm.username) }}
+        {{ form_widget(registrationForm.bio) }}
+        <div class=" w-full text-sm text-black font-semibold
+        
+        pl-2 border border-gray-300 rounded-lg cursor-pointer focus:outline-none">
+        <label for="registration_form_image">Photo de profil (.jpg, .jpeg ou .png)</label>
+        {{ form_widget(registrationForm.image) }}
+        </div>
+        {{ form_widget(registrationForm.plainPassword) }}
+       <div>{{ form_widget(registrationForm.agreeTerms) }} Accepter les conditions d'utilisation</div>
+
+        
+
+        <button type="submit" class="btn">Register</button>
+    {{ form_end(registrationForm) }}
+    </div>
+{% endblock %}

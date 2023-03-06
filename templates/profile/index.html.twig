@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Profile de @{{user.username}}
+{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('css/show.css') }}">
+{% endblock %}
+
+{% block body %}
+ {% include 'back.html.twig' %}
+<div class="flex flex-wrap flex-col mt-2 relative">
+     {% if is_granted('ROLE_USER') %}
+      {% if app.user.username == user.username %}
+      <a href="{{path('app_edit_profile_index')}}" class="absolute top-0 right-0 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-fit">Editer le profil</a>
+      {% endif %}
+      {% endif %}
+    <img src="{{ asset(user.getImagePath())}}" alt="image" class="h-32 w-32 rounded-full mr-4">
+    <div class="flex flex-col">
+        <h3 class="text-2xl font-bold">{{user.username | upper}}</h3>
+         <h4>@{{user.username}}</h4>
+         {% if user.bio | length > 0 %}
+         <h4>{{user.bio}}</h4>
+          {% else %}
+          <h4>Pas de description</h4>
+          {% endif %}
+         <div class="flex gap-2">
+         <a href="{{path('app_follow', {'username': user.username})}}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-fit">
+         {% if user.followers.contains(app.user) %}
+            Ne plus suivre
+            {% else %}
+            Suivre
+            {% endif %}
+          - {{user.followers | length}}</a>
+          <div class="bg-gray-200  text-white font-bold py-2 px-4 rounded-full w-fit">
+        Following - {{user.following | length}}</div>
+        </div>
+          <div class="mb-2">{% for follower in user.followers %}
+          <span>@{{follower.username}}</span>
+          {% endfor %}</div>
+          {# make 3 btns flex taking all space #}
+          <div class="border">
+          <div class="flex col w-full">
+          <a href="
+          {{path('app_profile', {'username': user.username, 'tabs': 1})}}" class="text-white font-bold p-3 flex-1 text-center
+          {% if tabs == 1 %} bg-blue-500
+          {% else %} bg-blue-300 {% endif %}
+          ">
+          <i class="fab fa-twitter"></i>
+          Tweets
+          </a>
+          <a href="{{path('app_profile', {'username': user.username, 'tabs': 2})}}" class=" text-white font-bold p-3 flex-1 text-center
+          {% if tabs == 2 %} bg-blue-500
+          {% else %} bg-blue-300 {% endif %}">
+          <i class="fas fa-heart"></i>
+          Likes
+          </a>
+          <a href="{{path('app_profile', {'username': user.username, 'tabs': 3})}}" class=" text-white font-bold p-3 flex-1 text-center
+          {% if tabs == 3 %} bg-blue-500 
+          {% else %} bg-blue-300 {% endif %}">
+          <i class="fas fa-retweet"></i>
+          Retweets
+          </a>
+          <a href="
+          {{path('app_profile', {'username': user.username, 'tabs': 4})}}" class="text-white font-bold p-3 flex-1 text-center
+          {% if tabs == 4 %} bg-blue-500
+          {% else %} bg-blue-300 {% endif %}
+          ">
+          <i class="fas fa-reply"></i>
+          Réponses
+          </a>
+          </div>
+          <div class="mb-3 mt-3">
+          {% include '/components/profile_tabs.html.twig' with {'tabs': tabs} %}
+          </div>
+          </div>
+{% endblock %}

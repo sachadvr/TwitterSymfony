@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Posts #{{ post.id }}
+{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('css/show.css') }}">
+{% endblock %}
+
+{% block body %}
+
+        {% include 'back.html.twig' %}
+        <div class="border">
+            {% if is_granted('ROLE_USER') %}
+            <div class="border p-2 mb-4">
+    {{form_start(form)}}
+    
+    {% if errors | length > 0 %}
+        <div class="p-5 border border-blue-500 text-blue-500 font-bold mb-5">
+            {% for error in errors %}
+                {{error.message}}
+            {% endfor %}
+        </div>
+    {% endif %}
+    {{form_widget(form.contenu, {'attr': {'placeholder': 'Répondre à @'~post.createdBy.username}})}}
+
+    <div class="flex justify-end">
+    <button type="submit" class="btn bg-blue-400 rounded-full px-4 py-2 font-bold text-white
+    
+    ">Tweeter</button></div>
+    </div>
+            {{form_end(form)}}
+        {{ component('post', {post: post}) }}
+
+            {% endif %}
+        <div class="ml-8 mr-1 mt-2 flex flex-col p-3 relative">
+            {% for commentaire in commentaires %}
+                {{ component('commentaires', {commentaire: commentaire}) }}
+            {% else %}
+                <div class="text-center mt-3">
+                    Il n'y a pas encore de réponses, soyez le premier à en laisser une !
+                </div>
+            {% endfor %}
+    </div>
+    </div>
+{% endblock %}

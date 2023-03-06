@@ -1,0 +1,43 @@
+{% if tabs == 1 %}
+<h2 class="text-bold ml-4 mb-3 font-bold">Derniers tweets</h2>
+          {% for post in user.getPosts() %}
+          {{component('post', {'post': post})}}
+          {% else %}
+            <div class="text-center">
+                <p class="text-bold">Cet utilisateur n'a pas encore effectué de tweets  <i class="far fa-frown"></i></p>
+            </div>
+          {% endfor %}
+{% endif %}
+{% if tabs == 2 %}
+<h2 class="text-bold ml-4 mb-3 font-bold">Derniers likes</h2>
+          {% for like in user.getLikes() %}
+          {{component('post', {'post': like})}}
+          {% else %}
+            <div class="text-center">
+                <p class="text-bold">Cet utilisateur n'a pas encore effectué de likes  <i class="far fa-frown"></i></p>
+            </div>
+          {% endfor %}
+          {% endif %}
+{% if tabs == 3 %}
+<h2 class="text-bold ml-4 mb-3 font-bold">Derniers retweets</h2>
+          {% for retweet in user.getRetweets() %}
+          {{component('post', {'post': retweet})}}
+          {% else %}
+            <div class="text-center">
+                <p class="text-bold">Cet utilisateur n'a pas encore effectué de retweets <i class="far fa-frown"></i></p>
+            </div>
+          {% endfor %}
+{% endif %}
+{% if tabs == 4 %}
+<h2 class="text-bold ml-4 mb-3 font-bold">Dernières réponses à des tweets</h2>
+          {% for commentaire in user.getCommentaires() %}
+          {{component('post', {'post': commentaire.getLinkedPost()})}}
+          <div class="relative ml-10 mr-4 ">
+          {{ component('commentaires', {commentaire: commentaire}) }}
+          </div>
+          {% else %}
+            <div class="text-center">
+                <p class="text-bold">Cet utilisateur n'a pas encore effectué de réponses <i class="far fa-frown"></i></p>
+            </div>
+          {% endfor %}
+{% endif %}

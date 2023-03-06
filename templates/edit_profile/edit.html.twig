@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit User{% endblock %}
+
+{% block body %}
+    {% include 'back.html.twig' %}
+    <div class="border border-black m-4 p-2">
+    <h1>Edition de profil</h1>
+
+    {{ include('edit_profile/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_edit_profile_index') }}">Retour à la liste</a>
+
+    {{ include('edit_profile/_delete_form.html.twig') }}
+    </div>
+{% endblock %}

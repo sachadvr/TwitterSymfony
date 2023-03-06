@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Erreur{% endblock %}
+
+{% block body %}
+    <h1 class="text-3xl font-bold mb-5">Une erreur est survenue lors de l'exécution de votre requête.</h1>
+
+    <p>
+        Veuillez réessayer ultérieurement ou <a href="{{ path('app_post') }}" class="text-blue-500">Retourner à la page d'accueil</a>.
+    </p>
+{% endblock %}

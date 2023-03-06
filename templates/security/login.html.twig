@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+
+<div class="border border-black m-4 p-2">
+    <h1 class="
+    border-b-2 border-black pb-2 font-bold text-2xl
+    mb-5
+    ">Se connecter</h1>
+<form method="post" class="flex flex-col max-w-2xl m-5">
+    {% if error %}
+    <div class="p-5 border border-blue-500 text-blue-500 font-bold mb-5">
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    </div>
+    {% endif %}
+    {% if app.user %}
+        <div class="mb-3">
+            Tu es connecté: {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}" class="text-blue-500">Se déconnecter</a>
+        </div>
+    {% endif %}
+   
+    <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
+    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" placeholder="Email/Nom utilisateur" class="form-control border " autocomplete="email" required autofocus>
+    <input type="password" name="password" id="inputPassword" placeholder="Mot de passe" class="border   form-control" autocomplete="current-password" required>
+
+    <input type="hidden" name="_csrf_token"
+           value="{{ csrf_token('authenticate') }}"
+    >
+
+    
+       
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" name="_remember_me"> Se souvenir de moi
+            </label>
+        </div>
+   
+
+    <button class="btn btn-lg btn-primary" type="submit">
+        Sign in
+    </button>
+    <br/>
+    <a href="{{ path('app_register') }}">Pas encore inscrit?</a>
+</form>
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+
+
+.beforeCommentaire:not(:empty)::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -20px;
+    width: 19px;
+    height: 1px;
+    background-color: lightgray;
+}
+.borderCommentaire::after {
+    content: "";
+    position: absolute;
+    background-color: lightgray;
+    left: -20px;
+    top: 0%;
+    height: 50%;
+    width: 1px;
+
+}
+

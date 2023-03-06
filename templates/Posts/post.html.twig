@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Posts
+{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('css/post.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="">
+    {% if is_granted('ROLE_USER') %}
+    <div class="border p-2">
+    {{form_start(form)}}
+    {% if errors | length > 0 %}
+        <div class="p-5 border border-blue-500 text-blue-500 font-bold mb-5">
+            {% for error in errors %}
+                {{error.message}}
+            {% endfor %}
+        </div>
+    {% endif %}
+    {{form_widget(form.contenu)}}
+    <div class="flex justify-end">
+    <button type="submit" class="btn bg-blue-400 rounded-full px-4 py-2 font-bold text-white
+    
+    ">Tweeter</button></div>
+    </div>
+    {{form_end(form)}}
+    {% endif %}
+    <div class="border mt-4">
+    <div class="flex col w-full ">
+    <div class="bg-blue-400 px-4 py-2 font-bold text-white flex-1
+    ">Tweets</div>
+    <a href="/" class="bg-blue-400 px-4 py-2 font-bold text-white border-l-2 border-white
+    ">
+    <i class="fas fa-sync-alt"></i>
+    Rafraichir</a>
+    </div>
+    <div class="post_container my-4">
+    {% for post in posts %}
+    <div class="cursor-pointer" onclick="window.location.href='{{ path('app_post_show', {'id': post.id}) }}'">
+    {{ component('post', {post: post}) }}
+    </div>
+    {% else %}
+    <div class="text-center">
+    Il n'y a pas encore de post, soyez le premier à en poster un !
+    </div>
+    {% endfor %}
+    </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{{ form_start(form, {'attr': {'class': 'flex flex-col max-w-2xl m-5'}})}}
+        {% if errors|length > 0 %}
+        <div class="p-5 border border-red-500 mb-5">
+        {% for error in errors %}
+            <div class="alert alert-danger">{{ error.message }}</div>
+        {% endfor %}
+        </div>
+        {% endif %}
+        {{ form_widget(form.email) }}
+        {{ form_widget(form.username) }}
+        {{ form_widget(form.plainPassword) }}
+        {{ form_widget(form.bio) }}
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
