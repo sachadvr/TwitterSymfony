@@ -1,9 +1,43 @@
-    <div class="post ml-4 mr-4 outline outline-1 outline-black flex flex-row gap-3 p-3 relative">
-    <a href="{{ path('app_profile', {'username': post.createdBy.username}) }}" ><img src="{{ asset(post.createdBy.getImagePath()) }}" alt="image" class="h-10 w-10 object-contain rounded-full flex-grow-0"></a>
+    <div class="post ml-4 mr-4 outline outline-1 outline-black flex flex-row gap-3 p-3 relative {% if redirect == 1 %} cursor-pointer {% endif %}" 
+    
+    {% if redirect == 1 %}
+    onclick="redirect('{{ path('app_post_show', {'id': post.id}) }}')"
+    {% endif %}
+    >
+    <a href="{{ path('app_profile', {'username': post.createdBy.username}) }}" class="h-fit"><img src="{{ asset(images_path ~ post.createdBy.getImagePath()) }}" alt="profile picture" class="h-10 w-10 object-cover bg-white rounded-full flex-grow-0"></a>
     <div class="flex-1 flex flex-col">
+             {% set show = null %}
+             {%if app.user != null %}
+             {% if (this.getFollowingRetweets(app.user) != null)  %}
+                <div class="text-sm text-gray-400"><i class="fas fa-retweet"></i>
+                        {{ this.seeWhoRetweeted(app.user) }}
+                        
+                </div>
+                
+             {% elseif this.getFollowingLikes(app.user) != null %}
+                <div class="text-sm text-gray-400"><i class="fas fa-heart"></i>
+                        {{ this.seeWhoLiked(app.user) }}
+                        
+                </div>
+
+                
+               
+                {% elseif this.getFollowingComments(app.user) != null %}
+                {% set show = 1 %}
+                <div class="text-sm text-gray-400"><i class="fas fa-comment"></i>
+                        {{ this.seeWhoCommented(app.user) }} 
+                </div>
+                {% endif %}
+                {% endif %}
+                
             <a href="{{ path('app_profile', {'username': post.createdBy.username}) }}" class="w-fit showFollow">@{{ post.createdBy.username }} 
              {% include '/components/_following.html.twig' with {'createdBy': post.createdBy} %}
     </a>
+            {% if post.image != null %}
+                <img src="{{ asset(post_images_path ~ post.image) }}" alt="image" class="w-full h-auto rounded-lg max-h-80 object-cover cursor-pointer"
+                onclick="window.location.href = '{{asset(post_images_path ~ post.image)}}';"
+                >
+            {% endif %}
             <div>{{ this.replacedContent(post.contenu) |raw  }}</div>
             <div class="flex flex-row gap-3 w-fit">
             <a href="/post/{{post.id}}/retweet" class="w-fit"><div class="flex items-center gap-1 
@@ -22,10 +56,28 @@
             {% endif %}
             "></i>{{post.likes | length}}</div></a>
             </div>
+            {% if showcomments == 1 %}
             {% if post.createdAt|date('d/m/Y') == now|date('d/m/Y') %}
             <p class="text-xs right-2 bottom-2 absolute">{{ post.createdAt | date('H:i') }}</p>
             {% else %}
             <p class="text-xs right-2 bottom-2 absolute">{{ post.createdAt | date('d/m/Y') }}</p>
             {% endif %}
+            {% elseif showcomments == 0 %}
+                <p class="text-xs right-2 bottom-2 absolute">{{ post.createdAt | date('d/m/Y [H:i]') }}</p>
+            {% endif %}
+            {% if (show == 1) and (showcomments == 1) %}
+    {% set break = false %}
+    {% for comment in post.getCommentaires() %}
+    {% if (this.containsComment(app.user, comment.createdBy)) and break == false %}
+    <div class=" mr-4 mb-4 mt-2">
+            {{ component('commentaires', {commentaire: comment}) }}
+            {% set break = true %}
     </div>
+    {% endif %}       
+    {% endfor %}
+    {% endif %}
     </div>
+    
+    </div>
+    
+    

@@ -5,14 +5,19 @@ Posts
 {% endblock %}
 
 {% block stylesheets %}
+{{ parent() }}
 <link rel="stylesheet" href="{{ asset('css/post.css') }}">
 {% endblock %}
 
+{% block javascripts %}
+{{ parent() }}
+<script src="{{ asset('js/post.js') }}" defer></script>
+{% endblock %}
+
 {% block body %}
-<div class="">
     {% if is_granted('ROLE_USER') %}
     <div class="border p-2">
-    {{form_start(form)}}
+    {{form_start(form, {'enctype': 'multipart/form-data'})}}
     {% if errors | length > 0 %}
         <div class="p-5 border border-blue-500 text-blue-500 font-bold mb-5">
             {% for error in errors %}
@@ -20,34 +25,55 @@ Posts
             {% endfor %}
         </div>
     {% endif %}
+    
     {{form_widget(form.contenu)}}
+     <div class="text-sm text-black font-semibold cursor-pointer
+        
+        p-2 border border-gray-300 rounded-full  focus:outline-none w-fit ">
+    <label for="new_tweet_image">
+    <i class="fas fa-image cursor-pointer"></i>
+    </label>
+    {{form_widget(form.image)}}
+    </div>
     <div class="flex justify-end">
-    <button type="submit" class="btn bg-blue-400 rounded-full px-4 py-2 font-bold text-white
+    <button type="submit" class="btn bg-blue-400 rounded-full px-4 py-2 font-bold text-white hover:bg-blue-500
     
     ">Tweeter</button></div>
     </div>
     {{form_end(form)}}
     {% endif %}
-    <div class="border mt-4">
-    <div class="flex col w-full ">
-    <div class="bg-blue-400 px-4 py-2 font-bold text-white flex-1
-    ">Tweets</div>
-    <a href="/" class="bg-blue-400 px-4 py-2 font-bold text-white border-l-2 border-white
+    
+    <div class="border sm:mt-4">
+    <div class="flex justify-between flex-wrap bg-blue-400 ">
+    <a href="/" class="
+    {% if tabs %}bg-blue-400{% else %}bg-blue-500{% endif %}
+     px-4 py-2 font-bold text-white flex-1 hover:bg-blue-500 transition-all duration-300
+    ">Tweets</a>
+    <a href="/?tabs=1" class="bg-blue-400 px-4 py-2 font-bold text-white flex-1 flex items-center gap-2 hover:bg-blue-500 transition-all duration-300
+     {% if tabs %}bg-blue-500{% else %}bg-blue-400{% endif %}
     ">
+    <i class="fas fa-user"></i>
+    Abonnements</a>
+    <a href="Javascript:void(0)" class="bg-blue-400 px-4 py-2 font-bold text-white  flex items-center gap-2 hover:bg-blue-500 transition-all duration-300
+   
+    " onclick="reload()">
     <i class="fas fa-sync-alt"></i>
     Rafraichir</a>
     </div>
     <div class="post_container my-4">
     {% for post in posts %}
-    <div class="cursor-pointer" onclick="window.location.href='{{ path('app_post_show', {'id': post.id}) }}'">
-    {{ component('post', {post: post}) }}
+    {{ component('post', {post: post, showcomments: 1, redirect: 1}) }}
+    {% else %}
+    {% if tabs %}
+    <div class="text-center">
+    Il n'y a pas encore de post, suivez des utilisateurs pour voir leurs posts !
     </div>
     {% else %}
     <div class="text-center">
     Il n'y a pas encore de post, soyez le premier à en poster un !
     </div>
+    {% endif %}
     {% endfor %}
     </div>
     </div>
-</div>
 {% endblock %}

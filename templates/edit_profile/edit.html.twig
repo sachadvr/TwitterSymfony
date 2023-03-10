@@ -5,12 +5,18 @@
 {% block body %}
     {% include 'back.html.twig' %}
     <div class="border border-black m-4 p-2">
-    <h1>Edition de profil</h1>
-
-    {{ include('edit_profile/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_edit_profile_index') }}">Retour à la liste</a>
+    <h1 class="font-bold underline underline-offset-4">Edition de profil</h1>
+    <a href="{{ path('app_edit_profile_index') }}" >
+    <i class="fa-solid fa-circle-arrow-left text-sm"></i>
+   
+    Retour à la liste</a>
+    
+    
+    {{ include('edit_profile/_form.html.twig', {'button_label': 'Sauvegarder'}) }}
 
     {{ include('edit_profile/_delete_form.html.twig') }}
+
+    
+
     </div>
 {% endblock %}

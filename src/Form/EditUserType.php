@@ -9,6 +9,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -61,9 +62,6 @@ class EditUserType extends AbstractType
             'placeholder' => 'Mot de passe'],
             
             'constraints' => [
-                new NotBlank([
-                    'message' => 'Veuillez entrer un mot de passe',
-                ]),
                 new Length([
                     'min' => 6,
                     'minMessage' => 'Votre mot de passe doit faire au moins {{ limit }} caractères',
@@ -86,7 +84,18 @@ class EditUserType extends AbstractType
                 ]),
             ],
         ])
+        ->add('image', FileType::class, [
+            'label' => false,
+            'mapped' => false,
+            'required' => false,
+            'attr' => [
+                'placeholder' => 'Image',
+                'accept' => 'image/*',
+                'class' => 'hidden',
             
+            ],
+            
+        ])
         ;
     }
 

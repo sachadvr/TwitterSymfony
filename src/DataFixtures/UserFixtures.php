@@ -20,7 +20,7 @@ class UserFixtures extends Fixture
        
         $user = new User();
         $user->setEmail("sachadvr@icloud.com");
-        $user->setImagePath("images/pp1.jpg");
+        $user->setImagePath("sachadvr.jpg");
         $user->setBio("Je suis un développeur web");
         $user->setRoles(["ROLE_ADMIN"]);
         $user->setUsername("sachadvr");
@@ -30,7 +30,7 @@ class UserFixtures extends Fixture
         $user2 = new User();
         $user2->setEmail("theo.dadon@gmail.com");
         $user2->setBio("Je suis pas un développeur web");
-        $user2->setImagePath("images/pp2.jpg");
+        $user2->setImagePath("theodadon.jpg");
         $user2->setRoles(["ROLE_USER"]);
         $user2->setUsername("theodadon");
         $user2->setPassword('$2y$13$vDModiB4IcEl.riJ1CIcv.lyRNgQ36I5kqrTMKwAbZFizwianGhZe');

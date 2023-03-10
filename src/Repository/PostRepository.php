@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Post;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 /**
  * @extends ServiceEntityRepository<Post>
@@ -16,10 +17,13 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class PostRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $post_directory;
+    public function __construct(ManagerRegistry $registry, string $post_directory)
     {
         parent::__construct($registry, Post::class);
+        $this->post_directory = $post_directory;
     }
+    
 
     public function save(Post $entity, bool $flush = false): void
     {
@@ -32,8 +36,26 @@ class PostRepository extends ServiceEntityRepository
 
     public function remove(Post $entity, bool $flush = false): void
     {
+        $guessPath = $entity->getImage();
+        if ($guessPath != null) {
+
+            $imagePath = $this->post_directory . $guessPath;
+            //check if the file exist
+            if (file_exists($imagePath)) {
+                
+            
+            try {
+                unlink($imagePath);
+            } catch (FileException $e) {
+                throw new \Exception('Error deleting image');
+                
+            }
+        }
+        }
+
         $this->getEntityManager()->remove($entity);
 
+        
         if ($flush) {
             $this->getEntityManager()->flush();
         }

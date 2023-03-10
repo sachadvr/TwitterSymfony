@@ -5,7 +5,13 @@ Posts #{{ post.id }}
 {% endblock %}
 
 {% block stylesheets %}
+{{ parent() }}
 <link rel="stylesheet" href="{{ asset('css/show.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script src="{{ asset('js/post.js') }}" defer></script>
 {% endblock %}
 
 {% block body %}
@@ -31,12 +37,24 @@ Posts #{{ post.id }}
     ">Tweeter</button></div>
     </div>
             {{form_end(form)}}
-        {{ component('post', {post: post}) }}
+         {% if (post.createdBy == app.user) or (is_granted('ROLE_ADMIN')) %} 
+         <form action="{{ path('app_post_delete', {'id': post.id}) }}" method="POST" onsubmit="return confirm('Etes-vous sûr de vouloir supprimer définitivement ce tweet ?');">
+            <button class="ml-4 mb-4 px-2 font-bold top-2 right-2 text-red-500 border border-red-500">
+            {% if is_granted('ROLE_ADMIN') %}
+            [<i class="fas fa-user-shield"></i>]
+            {% endif %}
+            <i class="fas fa-trash-alt"></i>
+            Supprimer le tweet</button>
+        </form>
+        {% endif %}
+        {{ component('post', {post: post, showcomments: 0, redirect: 0}) }}
 
             {% endif %}
-        <div class="ml-8 mr-1 mt-2 flex flex-col p-3 relative">
+        <div class="ml-8 mr-1 flex flex-col p-3 relative">
             {% for commentaire in commentaires %}
+                <div class="my-1">
                 {{ component('commentaires', {commentaire: commentaire}) }}
+                </div>
             {% else %}
                 <div class="text-center mt-3">
                     Il n'y a pas encore de réponses, soyez le premier à en laisser une !

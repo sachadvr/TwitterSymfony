@@ -1,0 +1,31 @@
+<div class="mx-2 ">
+			<img src="{{ asset(images_path ~ user.getImagePath())}}" alt="image" class="h-32 w-32 rounded-full mr-4 object-cover hover:grayscale hover:brightness-50 afterCamera">
+			<div class="flex flex-col">
+				<h3 class="text-2xl font-bold">{{user.username | upper}}</h3>
+				<h4>@{{user.username}}</h4>
+				{% if user.bio | length > 0 %}
+					<h4>{{user.bio}}</h4>
+				{% else %}
+					<h4>Pas de description</h4>
+				{% endif %}
+				<div class="flex gap-x-2 flex-wrap">
+					<a href="{{path('app_follow', {'username': user.username})}}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-fit whitespace-nowrap	h-fit ">
+						{% if user.followers.contains(app.user) %}
+							Ne plus suivre
+						{% else %}
+							Suivre
+						{% endif %}
+						-
+						{{user.followers | length}}</a>
+					<div class="bg-gray-200  text-white font-bold py-2 px-4 rounded-full w-fit whitespace-nowrap	h-fit">
+						Following -
+						{{user.following | length}}</div>
+				</div>
+				<div class="mb-2">
+					{% for follower in user.followers %}
+						<span>@{{follower.username}}</span>
+					{% endfor %}
+				</div>
+				{# make 3 btns flex taking all space #}
+			</div>
+		</div>

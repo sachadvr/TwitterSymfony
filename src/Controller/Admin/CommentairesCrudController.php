@@ -18,9 +18,9 @@ class CommentairesCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
          return [
-            TextField::new('contenu'),
-            AssociationField::new('LinkedPost')->setCrudController(PostCrudController::class)->renderAsNativeWidget()->setDisabled(),
-            AssociationField::new('createdBy')->setCrudController(UserCrudController::class)->renderAsNativeWidget(),
+            TextField::new('contenu', 'Contenu'),
+            AssociationField::new('LinkedPost', 'Post lié')->setCrudController(PostCrudController::class)->renderAsNativeWidget()->setDisabled(),
+            AssociationField::new('createdBy', 'Créé par')->setCrudController(UserCrudController::class)->renderAsNativeWidget(),
         ];
     }
 }

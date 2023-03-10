@@ -1,4 +1,4 @@
-<form method="post" action="{{ path('app_edit_profile_delete') }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+<form method="post" action="{{ path('app_edit_profile_delete') }}" onsubmit="return confirm('Etes-vous sûr de vouloir supprimer définitivement votre compte ?');">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
-    <button class="btn">Supprimer définitivement le compte</button>
+    <button class="btn text-red-500 border border-red-500 px-2">Supprimer définitivement le compte</button>
 </form>

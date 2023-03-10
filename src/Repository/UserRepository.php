@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
@@ -19,9 +21,11 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
-    public function __construct(ManagerRegistry $registry)
+    private $images_directory;
+    public function __construct(ManagerRegistry $registry, string $images_directory)
     {
         parent::__construct($registry, User::class);
+        $this->images_directory = $images_directory;
     }
 
     public function save(User $entity, bool $flush = false): void
@@ -35,6 +39,17 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     public function remove(User $entity, bool $flush = false): void
     {
+        $guessPath = $entity->getImagePath();
+        $imagePath = $this->images_directory . $guessPath;
+        if (file_exists($imagePath)) {
+                try {
+                    unlink($imagePath);
+                } catch (FileException $e) {
+                    throw new \Exception('Error deleting image');
+                    
+                }
+            }
+        
         $this->getEntityManager()->remove($entity);
 
         if ($flush) {

@@ -2,13 +2,16 @@
 <html lang="fr">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
 
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&display=swap" rel="stylesheet">
+
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
@@ -18,32 +21,60 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-    <body>
-        <div class="w-full max-w-3xl ml-auto mr-auto relative mb-5">
+    <body class="max-w-6xl mx-auto h-screen">
+        <div class="relative flex flex-row ">
+        
+        <div class=" flex border h-screen bg-blue-400 flex-col max-sm:items-center sm:basis-3/12 transition-all duration-300 ease-in-out
+        ">
+        <div class="logo pr-5 pl-5 mt-5 flex gap-4 items-center">
+        <i class="fab fa-twitter text-white text-2xl"></i>
+        <span class="text-sm max-sm:hidden font-bold text-white">Twitter</span>
+        </div>
+        <div class="homepage mt-5 ">
+            <a href="{{ path('app_post') }}" class=" text-black font-bold px-6 flex gap-4 items-center hover:bg-blue-300 py-5
+            ">
+            <i class="fas fa-home text-xl"></i>
+            <span class="text-sm max-sm:hidden">Accueil</span>
+            </a>
+        </div>
 
-        {% if is_granted('ROLE_USER') %}
-        <div class="isconnecte text-right mt-2 mx-4">
-            <div class="flex justify-end items-center gap-3">
-            <a href="{{ path('app_profile', {'username': app.user.username}) }}" class="w-fit flex justify-end items-center gap-3">
-            <img src="{{ asset(app.user.getImagePath()) }}" alt="image" class="h-10 w-10 object-contain rounded-full flex-grow-0">  </a>
-            </div>
-            <a href="{{ path('app_logout') }}" class="text-blue-500">
-            <i class="fas fa-sign-out-alt mr-3 mt-2"></i>
+        
+        {% if is_granted('ROLE_ADMIN') %}
+        <div class="isadmin">
+            <a href="{{ path('admin') }}" class="bg-red-600 text-white font-bold flex gap-4 items-center px-6 py-5 hover:bg-red-700">
+            <i class="fas fa-user-shield"></i>
+            <span class="text-sm max-sm:hidden">Administation</span>
+            </a>
+        </div>
+        {% endif %}
+        {% if not (is_granted('ROLE_USER')) %}
+        
+         <div class="isconnecte mt-auto">
+            <a href="{{ path('app_login') }}" class="text-white flex items-center gap-5 hover:bg-blue-300 py-5 px-6"><i class="fas fa-sign-in-alt text-xl"></i>
+            <span class="text-sm max-sm:hidden font-bold">Login</span>
             </a>
         </div>
         {% else %}
-         <div class="isconnecte text-right mt-2 mx-2">
-            <a href="{{ path('app_login') }}" class="text-blue-500">Se connecter</a>
+        
+        <div class="isconnecte  mt-auto">
+            <a href="{{ path('app_logout') }}" class="text-white flex items-center gap-5 hover:bg-blue-300 py-5 px-6">
+            <i class="fas fa-sign-out-alt text-xl"></i>
+            <span class="text-sm max-sm:hidden font-bold">Logout</span>
+            </a>
         </div>
-
-        {% endif %}
-        {% if is_granted('ROLE_ADMIN') %}
-        <div class="isadmin text-start absolute top-2 left-2 mx-2">
-            <a href="{{ path('admin') }}" class="bg-red-600 rounded-lg text-white font-bold px-3">Administration</a>
+        <div class="profilepicture pb-3">
+            <a href="{{ path('app_profile', {'username': app.user.username}) }}" class=" text-white flex items-center gap-5 hover:bg-blue-300 py-5 px-6
+            ">
+            <img src="{{ asset(images_path ~ app.user.getImagePath()) }}" alt="image" class="h-5 w-5 object-contain rounded-full flex-grow-0 bg-white"> 
+            <span class="text-sm max-sm:hidden font-bold">Mon profil</span>
+             </a>
         </div>
         {% endif %}
-        <div class="p-4">
+        </div>
+        <div class="flex-1 overflow-x-hidden overflow-y-scroll h-screen sm:px-5">
+            <div class="sm:mt-5">
         {% block body %}{% endblock %}</div>
+        </div>
         </div>
     </body>
 </html>

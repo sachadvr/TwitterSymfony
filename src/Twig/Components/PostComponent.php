@@ -14,11 +14,123 @@ final class PostComponent
     public Post $post;
     public DateTimeInterface $now;
     private EntityManagerInterface $em;
+    public int $showcomments;
+    public int $redirect;
+    
     public function __construct(Post $post, EntityManagerInterface $em)
     {
         $this->post = $post;
         $this->em = $em;
         $this->now = new \DateTimeImmutable();
+    }
+
+    
+    // =========================================================== //
+    // Functions to get the number of likes, comments and retweets //
+    // =========================================================== //
+
+    public function getFollowingLikes(User $user) {
+        $likes = $this->post->getLikes();
+        $following = $user->getFollowing();
+        $likedBy = [];
+        foreach ($following as $follow) {
+            if ($likes->contains($follow)) {
+                if ($this->post->getCreatedBy() != $follow) {
+                    $likedBy[] = $follow->getUsername();
+                }
+            }
+        }
+        $likedBy = array_unique($likedBy);
+        return $likedBy;
+    }
+
+    
+    public function getFollowingComments(User $user) {
+        $comments = $this->post->getCommentaires();
+        $following = $user->getFollowing();
+        $commentedBy = [];
+        foreach ($following as $follow) {
+            foreach ($comments as $comment) {
+                if ($comment->getCreatedBy() == $follow) {
+                    $commentedBy[] = $follow->getUsername();
+                }
+            }
+        }
+        $commentedBy = array_unique($commentedBy);
+        return $commentedBy;
+    }
+    
+    public function getFollowingRetweets(User $user) {
+        $retweets = $this->post->getRetweet();
+        $following = $user->getFollowing();
+        $retweetedBy = [];
+        foreach ($following as $follow) {
+            if ($retweets->contains($follow)) {
+                $retweetedBy[] = $follow->getUsername();
+            }
+        }
+        $retweetedBy = array_unique($retweetedBy);
+        return $retweetedBy;
+    }
+    
+    //  function this.getFollowingComments(app.user).contains(comment.createdBy))
+    public function containsComment(User $user, User $otherUser) {
+        $comments = $this->getFollowingComments($user);
+        if (in_array($otherUser->getUsername(), $comments)) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+    // ====================================================== //
+    //     See who liked, commented or retweeted the post     //
+    // ====================================================== //
+
+    public function seeWhoLiked(User $user) {
+        $likedBy = $this->getFollowingLikes($user);
+        
+        if (count($likedBy) == 0)
+        {
+            return null;
+        }elseif (count($likedBy) == 1) {
+            $str= implode(', ', $likedBy) . " a aimé ce tweet";
+            return $str;
+        }else {
+            $str= implode(', ', $likedBy) . " ont aimé ce tweet";
+            return $str;
+        }
+        
+
+
+    }
+    public function seeWhoRetweeted(User $user) {
+        $retweetedBy = $this->getFollowingRetweets($user);
+        
+        if (count($retweetedBy) == 0)
+        {
+            return null;
+        }elseif (count($retweetedBy) == 1) {
+            $str= implode(', ', $retweetedBy) . " a retweeté ce tweet";
+            return $str;
+        }else {
+            $str= implode(', ', $retweetedBy) . " ont retweeté ce tweet";
+            return $str;
+        }
+    }
+
+    public function seeWhoCommented(User $user) {
+        $commentedBy = $this->getFollowingComments($user);
+        
+        if (count($commentedBy) == 0)
+        {
+            return null;
+        }elseif (count($commentedBy) == 1) {
+            $str= implode(', ', $commentedBy) . " a commenté ce tweet";
+            return $str;
+        }else {
+            $str= implode(', ', $commentedBy) . " ont commenté ce tweet";
+            return $str;
+        }
     }
     public function replacedContent($contenu) {
         // Search for usernames in the contenu column

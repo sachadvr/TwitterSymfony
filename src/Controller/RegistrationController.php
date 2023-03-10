@@ -14,12 +14,20 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
+use Symfony\Component\Uid\Uuid;
 
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, LoginAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
+        if ($this->getUser()) {
+            try{
+                return $this->redirectToRoute('target_path');
+            }catch(\Exception $e){
+                return $this->redirectToRoute('app_post');
+            }
+        }
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -34,18 +42,18 @@ class RegistrationController extends AbstractController
                 )
             );
 
-            #image is passed as a file
             $image = $form->get('image')->getData();
             if ($image) {
+                $uuid = Uuid::v4();
+                $guessPath = $uuid->toRfc4122() . '.' . $image->guessExtension();
                 
-                $guessPath = $user->getUsername() . '.' . $image->guessExtension();
-                // Move the file to images directory in assets('images/[filename]')
+
                 try {
                     $image->move(
                         $this->getParameter('images_directory'),
                         $guessPath
                     );
-                    $user->setImagePath('/images/' . $guessPath);
+                    $user->setImagePath($guessPath);
                 } catch (FileException $e) {
                     $form->addError(new FormError('Error uploading image'));
                 }

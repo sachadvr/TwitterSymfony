@@ -19,3 +19,26 @@
     font-weight: bold;
     z-index: 1;
 }
+
+
+
+.beforeCommentaire:not(:empty)::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -2.1rem;
+    width: calc(2.1rem - 1px);
+    height: 1px;
+    background-color: lightgray;
+}
+.borderCommentaire::after {
+    content: "";
+    position: absolute;
+    background-color: lightgray;
+    left: -2.1rem;
+    top: -85%;
+    height: 135%;
+    width: 1px;
+
+}
+
