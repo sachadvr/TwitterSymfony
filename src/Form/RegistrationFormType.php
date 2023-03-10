@@ -83,7 +83,6 @@ class RegistrationFormType extends AbstractType
                         'message' => 'Veuillez uploader une image',
                     ]),
                     new Image([
-                        'maxSize' => '1024k',
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/png',
