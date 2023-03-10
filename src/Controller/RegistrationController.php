@@ -59,7 +59,7 @@ class RegistrationController extends AbstractController
                     );
                     $user->setImagePath($guessPath);
                 } catch (FileException $e) {
-                    $form->addError(new FormError('Error uploading image'));
+                    throw new \Exception('Error while uploading image');
                 }
             }
 
