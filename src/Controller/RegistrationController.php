@@ -45,7 +45,11 @@ class RegistrationController extends AbstractController
             $image = $form->get('image')->getData();
             if ($image) {
                 $uuid = Uuid::v4();
-                $guessPath = $uuid->toRfc4122() . '.' . $image->guessExtension();
+                $extension = $image->guessExtension();
+                if ($extension == null) {
+                    $extension = 'jpg';
+                }
+                $guessPath = $uuid->toRfc4122() . '.' . $extension;
                 
 
                 try {
