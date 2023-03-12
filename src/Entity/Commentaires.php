@@ -30,9 +30,11 @@ class Commentaires
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\ManyToMany(targetEntity: User::class)]
+    #[ORM\JoinTable(name: 'retweets_commentaires')]
     private Collection $retweet;
 
     #[ORM\ManyToMany(targetEntity: User::class)]
+    #[ORM\JoinTable(name: 'likes_commentaires')]
     private Collection $likes;
 
     public function __construct()
