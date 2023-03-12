@@ -36,7 +36,12 @@ class PostController extends AbstractController
         $post = $this->em->getRepository(Post::class)->findBy([], ['lastModified' => 'DESC']);
         // i want to findby createdby Desc and if the post has been retweeted by following of the user make it appear first
         // $form from NewTweetType
+        $username_list = null;
         if ($this->getUser()) {
+            $username_list = $this->em->getRepository(User::class)->findAll();
+            $username_list = array_map(function($user) {
+                return $user->getUsername();
+            }, $username_list);
 
             $user = $this->getUser()->getUserEntity();
             $following = $user->getFollowing();
@@ -102,14 +107,26 @@ class PostController extends AbstractController
             'form' => $form->createView(),
             'errors' => $form->getErrors(true, true),
             'tabs' => ($request->query->get('tabs') == null) ? false : true,
+            'username_list' => $username_list,
         ));
     }
 
     #[Route('/post/{id}', name: 'app_post_show', methods: ['GET','POST'])]
     public function show($id, Request $request)
     {
+    
         $post = $this->em->getRepository(Post::class)->find($id);
+        if (!$post) {
+            throw $this->createNotFoundException('No post found for id ' . $id);
+        }
 
+        $username_list = null;
+        if ($this->getUser()) {
+            $username_list = $this->em->getRepository(User::class)->findAll();
+            $username_list = array_map(function($user) {
+                return $user->getUsername();
+            }, $username_list);
+        }
         $form = $this->createForm(NewCommentairesType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -128,7 +145,7 @@ class PostController extends AbstractController
             'form' => $form->createView(),
             'now' => new \DateTimeImmutable(),
             'errors' => $form->getErrors(true, true),
-
+            'username_list' => $username_list,
         ]);
     }
     // retweet

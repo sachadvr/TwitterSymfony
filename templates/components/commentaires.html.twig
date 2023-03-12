@@ -1,4 +1,4 @@
-<div class="beforeCommentaire borderCommentaire border rounded-lg border-black p-3 flex flex-row gap-3 relative" onclick="document.querySelector('.commentaire_area').focus(); document.querySelector('.commentaire_area').value =  document.querySelector('.commentaire_area').value + '@{{ commentaire.createdBy.username }} ';">
+<div class="beforeCommentaire borderCommentaire border rounded-lg border-black p-3 flex flex-row gap-3 relative" onclick="document.querySelector('.commentaire_area').focus(); document.querySelector('.commentaire_area').value = '@{{ commentaire.createdBy.username }} ';">
     <img src="{{ asset(images_path ~ commentaire.createdBy.getImagePath())}}" alt="image" class="h-10 w-10 object-cover bg-white rounded-full flex-grow-0">
     <div class="flex-1">
     <h2 class="text-sm">@{{  commentaire.createdBy.username }} 
