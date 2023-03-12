@@ -23,10 +23,11 @@ class CommentaireController extends AbstractController
     
 
     // retweet
-    #[Route('/comment/{id}/retweet', name: 'app_post_retweet', methods: ['GET'])]
+    #[Route('/comment/{id}/retweet', name: 'app_comment_retweet', methods: ['GET'])]
     public function retweet($id)
     {
         $comment = $this->em->getRepository(Commentaires::class)->find($id);
+        $postLinked = $comment->getLinkedPost();
         $isRetweeted = $comment->getRetweet()->contains($this->getUser());
         if ($isRetweeted) {
             $comment->removeRetweet($this->getUser());
@@ -35,13 +36,14 @@ class CommentaireController extends AbstractController
         }
         $this->em->flush();
         
-        return $this->redirectToRoute('app_post');
+        return $this->redirectToRoute('app_post_show', ['id' => $postLinked->getId()]);
     }
     // like
-    #[Route('/commentaire/{id}/like', name: 'app_post_like', methods: ['GET'])]
+    #[Route('/comment/{id}/like', name: 'app_comment_like', methods: ['GET'])]
     public function like($id)
     {
         $comment = $this->em->getRepository(Commentaires::class)->find($id);
+        $postLinked = $comment->getLinkedPost();
         $isLiked = $comment->getLikes()->contains($this->getUser());
         if ($isLiked) {
             $comment->removeLike($this->getUser());
@@ -49,11 +51,11 @@ class CommentaireController extends AbstractController
             $comment->addLike($this->getUser());
         }
         $this->em->flush();
-        return $this->redirectToRoute('app_post');
+        return $this->redirectToRoute('app_post_show', ['id' => $postLinked->getId()]);
     }
 
     // delete
-    #[Route('/commentaire/{id}/delete', name: 'app_post_delete', methods: ['POST'])]
+    #[Route('/comment/{id}/delete', name: 'app_comment_delete', methods: ['POST'])]
     public function delete($id)
     {
         $comment = $this->em->getRepository(Commentaires::class)->find($id);
