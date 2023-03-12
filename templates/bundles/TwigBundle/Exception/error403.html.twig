@@ -3,6 +3,7 @@
 {% block title %}Page not accessible{% endblock %}
 
 {% block body %}
+<div class="p-4">
     <h1 class="text-3xl font-bold mb-5">Désolé, Vous n'avez pas accès à cette page</h1>
 
     <p>
@@ -10,4 +11,5 @@
         Si vous pensez que c'est une erreur, veuillez contacter l'administrateur du site. <br>
         <a href="{{ path('app_post') }}" class="text-blue-500">Retourner à la page d'accueil</a>.
     </p>
+    </div>
 {% endblock %}
