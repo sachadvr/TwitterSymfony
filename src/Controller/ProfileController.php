@@ -25,6 +25,9 @@ class ProfileController extends AbstractController
             $tabs = 1;
         }
         $user = $this->em->getRepository(User::class)->findOneBy(['username' => $username]);
+        if (!$user) {
+            throw $this->createNotFoundException('User not found');
+        }
         return $this->render('profile/index.html.twig', [
             'user' => $user,
             'now' => new \DateTimeImmutable(),
