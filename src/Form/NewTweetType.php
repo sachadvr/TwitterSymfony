@@ -10,7 +10,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
@@ -44,13 +43,6 @@ class NewTweetType extends AbstractType
                 'attr' => [
                     'class' => 'hidden',
                     'accept' => 'image/*',
-                ],'constraints' => [
-                    new Image([
-                        'maxWidth' => '1920',
-                        'maxHeight' => '1080',
-                        'maxWidthMessage' => 'Votre image ne doit pas dépasser 1920px de largeur',
-                        'maxHeightMessage' => 'Votre image ne doit pas dépasser 1080px de hauteur',
-                    ]),
                 ],
                 'mapped' => false,
                 'required' => false,
