@@ -9,6 +9,7 @@ function redirect(url) {
 //onload
 function imagePreview() {
     var new_tweet_image = document.getElementById("new_tweet_image");
+    if (new_tweet_image == null) return;
     new_tweet_image.addEventListener("change", function() {
         // change text in label
         var preview = document.getElementById("preview");

@@ -1,7 +1,7 @@
 function getCompletion(id, list, userid) {
     if (list == null) return;
     var new_tweet = document.getElementById(id);
-    console.log(new_tweet);
+    if (new_tweet == null) return;
     var test = list;
     new_tweet.addEventListener("input", function() {
         var text = new_tweet.value;
