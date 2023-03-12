@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class EditUserType extends AbstractType
 {
@@ -35,6 +36,10 @@ class EditUserType extends AbstractType
                     'minMessage' => 'Votre nom d\'utilisateur doit faire au moins {{ limit }} caractères',
                     'max' => 255,
                     'maxMessage' => 'Votre nom d\'utilisateur ne peut pas faire plus de {{ limit }} caractères',
+                ]),
+                new Regex([
+                    'pattern' => '/^[a-zA-Z0-9_]+$/',
+                    'message' => 'Votre nom d\'utilisateur ne peut contenir que des lettres, des chiffres et des underscores',
                 ]),
             ],
         ])
