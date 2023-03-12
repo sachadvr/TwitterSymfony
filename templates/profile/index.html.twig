@@ -19,11 +19,11 @@
 	<div class="flex flex-wrap flex-col mt-2 relative">
 		{% if is_granted('ROLE_USER') %}
 			{% if app.user.username == user.username %}
-				<a href="{{path('app_edit_profile_index')}}" class="absolute top-0 right-0 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-fit">Editer le profil</a>
+				<a href="{{path('app_edit_profile_index')}}" class="absolute top-0 right-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-fit">Editer le profil</a>
 			{% endif %}
 		{% endif %}
 		{{ include('profile/_showprofile.html.twig') }}
-		<div class="border mt-3">
+		<div class="border">
 			<div class="flex col w-auto bg-blue-300 flex-wrap ">
 				<a href="{{path('app_profile', {'username': user.username, 'tabs': 1})}}" class="text-white font-bold p-3 flex-1 text-center flex items-center gap-2 justify-center {% if tabs == 1 %} bg-blue-500{% else %} bg-blue-300 {% endif %}
 																	          ">

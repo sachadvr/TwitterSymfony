@@ -3,27 +3,18 @@
 {% block title %}User index
 {% endblock %}
 
-
 {% block body %}
 	{% include 'back.html.twig' %}
-	<div class="border border-black m-4 p-2 flex gap-2 flex-wrap flex-col">
 
-		<div class="flex flex-col gap-4 flex-1">
-			<div>
-				<strong>Nom utilisateur:</strong>
-				{{ user.username }}</div>
-			<div>
-				<strong>Email:</strong>
-				{{ user.email }}</div>
-			<div>
-				<strong>Bio:</strong>
-				{{ user.bio }}</div>
-
-			<a href="{{ path('app_edit_profile_edit') }}" class="text-blue-500">Modifier</a>
-		</div>
-		<div style="zoom:70%;" class="border flex-1 border-black p-2">
+		<div  class=" flex-1 p-2 border border-black">
 
 			{{ include('profile/_showprofile.html.twig') }}
+		 
 		</div>
-	</div>
+        <div class="flex flex-col gap-1 flex-1">
+			<a href="{{ path('app_edit_profile_edit') }}" class="text-white bg-blue-500 p-2 font-bold 
+            hover:bg-blue-700 hover:text-white transition duration-300 ease-in-out pl-4 text-center
+            ">Modifier</a>
+       
+    </div>
 {% endblock %}

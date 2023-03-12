@@ -16,6 +16,7 @@ Posts
 <script>
     window.onload = function() {
         getCompletion("new_tweet_contenu", {{ username_list | json_encode | raw }}, "users");
+        imagePreview();
     }
 
 </script>
@@ -37,10 +38,12 @@ Posts
      <div class="text-sm text-black font-semibold cursor-pointer
         
         p-2 border border-gray-300 rounded-full  focus:outline-none w-fit ">
-    <label for="new_tweet_image">
+    <label id="label_image" for="new_tweet_image">
     <i class="fas fa-image cursor-pointer"></i>
     </label>
     {{form_widget(form.image)}}
+
+    <div id="preview" class="[&:not(&:empty)]:my-2"></div>
     </div>
     <div id="users" class="[&:not(&:empty)]:my-2 flex flex-wrap gap-x-2"></div>
     <div class="flex justify-end">
@@ -68,7 +71,7 @@ Posts
     <i class="fas fa-sync-alt"></i>
     Rafraichir</a>
     </div>
-    <div class="post_container my-4">
+    <div class="post_container mb-4">
     {% for post in posts %}
     {{ component('post', {post: post, showcomments: 1, redirect: 1}) }}
     {% else %}

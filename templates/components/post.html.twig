@@ -1,4 +1,8 @@
-    <div class="post ml-4 mr-4 outline outline-1 outline-black flex flex-row gap-3 p-3 relative {% if redirect == 1 %} cursor-pointer {% endif %}" 
+    <div class="
+    {% if redirect == 1 %} 
+    border-y
+        {% endif %}
+    flex flex-row gap-3 p-3 relative {% if redirect == 1 %} cursor-pointer {% endif %}" 
     
     {% if redirect == 1 %}
     onclick="redirect('{{ path('app_post_show', {'id': post.id}) }}')"
@@ -30,11 +34,11 @@
                 {% endif %}
                 {% endif %}
                 
-            <a href="{{ path('app_profile', {'username': post.createdBy.username}) }}" class="w-fit showFollow">@{{ post.createdBy.username }} 
+            <a href="{{ path('app_profile', {'username': post.createdBy.username}) }}" class="w-fit showFollow font-bold">@{{ post.createdBy.username }} 
              {% include '/components/_following.html.twig' with {'createdBy': post.createdBy} %}
     </a>
             {% if post.image != null %}
-                <img src="{{ asset(post_images_path ~ post.image) }}" alt="image" class="w-full h-auto rounded-lg max-h-80 object-cover cursor-pointer"
+                <img src="{{ asset(post_images_path ~ post.image) }}" alt="image" class="w-full h-auto rounded-lg max-h-80 {% if redirect == 1 %}object-cover{% else %}object-contain bg-black{% endif %} cursor-pointer"
                 onclick="window.location.href = '{{asset(post_images_path ~ post.image)}}';"
                 >
             {% endif %}

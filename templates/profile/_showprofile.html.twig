@@ -1,5 +1,5 @@
-<div class="mx-2 ">
-			<img src="{{ asset(images_path ~ user.getImagePath())}}" alt="image" class="h-32 w-32 rounded-full mr-4 object-cover hover:grayscale hover:brightness-50 afterCamera">
+<div class="mx-4">
+			<img src="{{ asset(images_path ~ user.getImagePath())}}" alt="image" class="h-32 w-32 rounded-full mr-4 object-cover afterCamera">
 			<div class="flex flex-col">
 				<h3 class="text-2xl font-bold">{{user.username | upper}}</h3>
 				<h4>@{{user.username}}</h4>

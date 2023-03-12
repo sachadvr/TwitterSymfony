@@ -21,7 +21,7 @@ class EditUserType extends AbstractType
     {
         $builder
         ->add('username', TextType::class, [
-            'label' => false,
+            'label' => 'false',
             'attr' => [
                 'placeholder' => 'Username',
                 'class' => 'border',

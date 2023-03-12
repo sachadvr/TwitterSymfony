@@ -26,8 +26,23 @@ Posts #{{ post.id }}
         {% include 'back.html.twig' %}
         <div class="border">
             {% if is_granted('ROLE_USER') %}
-            <div class="border p-2 mb-4">
-    {{form_start(form)}}
+            <div class="border-b p-2 mb-4">
+    
+         {% if (post.createdBy == app.user) or (is_granted('ROLE_ADMIN')) %} 
+         <form action="{{ path('app_post_delete', {'id': post.id}) }}" method="POST" onsubmit="return confirm('Etes-vous sûr de vouloir supprimer définitivement ce tweet ?');">
+            <button class="ml-4 mb-4 px-2 font-bold top-2 right-2 text-red-500 border border-red-500">
+            {% if is_granted('ROLE_ADMIN') %}
+            [<i class="fas fa-user-shield"></i>]
+            {% endif %}
+            <i class="fas fa-trash-alt"></i>
+            Supprimer le tweet</button>
+        </form>
+        {% endif %}
+        {{ component('post', {post: post, showcomments: 0, redirect: 0}) }}
+
+            {% endif %}
+        <div class="border p-2 m-4">
+        {{form_start(form)}}
     
     {% if errors | length > 0 %}
         <div class="p-5 border border-blue-500 text-blue-500 font-bold mb-5">
@@ -44,19 +59,7 @@ Posts #{{ post.id }}
     ">Tweeter</button></div>
     </div>
             {{form_end(form)}}
-         {% if (post.createdBy == app.user) or (is_granted('ROLE_ADMIN')) %} 
-         <form action="{{ path('app_post_delete', {'id': post.id}) }}" method="POST" onsubmit="return confirm('Etes-vous sûr de vouloir supprimer définitivement ce tweet ?');">
-            <button class="ml-4 mb-4 px-2 font-bold top-2 right-2 text-red-500 border border-red-500">
-            {% if is_granted('ROLE_ADMIN') %}
-            [<i class="fas fa-user-shield"></i>]
-            {% endif %}
-            <i class="fas fa-trash-alt"></i>
-            Supprimer le tweet</button>
-        </form>
-        {% endif %}
-        {{ component('post', {post: post, showcomments: 0, redirect: 0}) }}
-
-            {% endif %}
+            </div>
         <div class="ml-8 mr-1 flex flex-col p-3 relative">
             {% for commentaire in commentaires %}
                 <div class="my-1">
