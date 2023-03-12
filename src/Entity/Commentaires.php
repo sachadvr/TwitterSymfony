@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CommentairesRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CommentairesRepository::class)]
@@ -26,6 +28,18 @@ class Commentaires
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\ManyToMany(targetEntity: User::class)]
+    private Collection $retweet;
+
+    #[ORM\ManyToMany(targetEntity: User::class)]
+    private Collection $likes;
+
+    public function __construct()
+    {
+        $this->retweet = new ArrayCollection();
+        $this->likes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -78,6 +92,54 @@ class Commentaires
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getRetweet(): Collection
+    {
+        return $this->retweet;
+    }
+
+    public function addRetweet(User $retweet): self
+    {
+        if (!$this->retweet->contains($retweet)) {
+            $this->retweet->add($retweet);
+        }
+
+        return $this;
+    }
+
+    public function removeRetweet(User $retweet): self
+    {
+        $this->retweet->removeElement($retweet);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(User $like): self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes->add($like);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(User $like): self
+    {
+        $this->likes->removeElement($like);
 
         return $this;
     }

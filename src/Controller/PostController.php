@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Custom\ImageOptimizer;
 use App\Entity\Commentaires;
 use App\Entity\Post;
 use App\Repository\PostRepository;
@@ -92,6 +93,7 @@ class PostController extends AbstractController
                             $this->getParameter('post_images_directory'),
                             $guessPath
                         );
+                        new ImageOptimizer($this->getParameter('post_images_directory') . '/' . $guessPath);
                         $post->setImage($guessPath);
                     } catch (FileException $e) {
                         $form->addError(new FormError('Error uploading image'));

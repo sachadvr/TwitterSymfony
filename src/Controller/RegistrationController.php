@@ -15,7 +15,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Component\Uid\Uuid;
-
+use App\Custom\ImageOptimizer;
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
@@ -57,9 +57,10 @@ class RegistrationController extends AbstractController
                         $this->getParameter('images_directory'),
                         $guessPath
                     );
+                    new ImageOptimizer($this->getParameter('images_directory') . '/' . $guessPath);
                     $user->setImagePath($guessPath);
                 } catch (FileException $e) {
-                    throw new \Exception($e);
+                    throw new \Exception('Erreur lors de l\'upload de l\'image');
                 }
             }
 

@@ -2,22 +2,18 @@
 
 namespace App\Controller;
 
+use App\Custom\ImageOptimizer;
 use App\Entity\User;
 use App\Form\EditUserType;
-use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
-use Symfony\Component\Security\Http\Event\LogoutEvent;
 
 #[Route('/edit')]
 class EditProfileController extends AbstractController 
@@ -75,6 +71,7 @@ class EditProfileController extends AbstractController
                         $this->getParameter('images_directory'),
                         $guessPath
                     );
+                    new ImageOptimizer($this->getParameter('images_directory') . $guessPath);
                     $user->setImagePath($guessPath);
                 } catch (FileException $e) {
                     $form->addError(new FormError('Error uploading image'));
