@@ -9,6 +9,7 @@
   --bg-color: white;
   --border-color: lightgray;
 }
+
 ::placeholder {
   color: var(--border-color);
 }
