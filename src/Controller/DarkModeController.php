@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -15,7 +16,7 @@ class DarkModeController extends AbstractController
         $this->em = $em;
     }
     #[Route('/dark', name: 'app_dark')]
-    public function index() : Response
+    public function index(Request $request) : Response
     {
         if ($this->getUser()) {
             $user = $this->getUser();
@@ -29,7 +30,15 @@ class DarkModeController extends AbstractController
         
         $this->em->persist($user);
         $this->em->flush();
-        return $this->redirectToRoute('app_post');
+
+        $target = $request->query->get('target');
+        if ($target == null) {$target = '/';}
+
+        try{
+            return $this->redirect($target);
+        }catch(\Exception $e){
+            return $this->redirectToRoute('app_post');
+        }
 
 
     }

@@ -45,21 +45,24 @@
             {% endif %}
             <div>{{ this.replacedContent(post.contenu) |raw  }}</div>
             <div class="flex flex-row gap-3 w-fit">
-            <a href="/post/{{post.id}}/retweet" class="w-fit"><div class="flex items-center gap-1 
-            "><i style="width:20px" class="fas fa-retweet  hover:text-green-400 transition-all rounded-full
+            <form action="{{path('app_post_retweet', {'id': post.id, 'target': path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params'))})}}" method="post" class="w-fit cusror-pointer">
+            <button class="flex items-center gap-1 
+            ">
+            <i style="width:20px" class="fas fa-retweet  hover:text-green-400 transition-all duration-75
             {# on hover only hover the next child #}
             
             {% if post.retweet.contains(app.user) %}
             text-green-300
             {% endif %}
-            "></i><div>{{post.retweet | length}}</div></div></a>
+            "></i><div>{{post.retweet | length}}</div></button></form>
             
-            <a href="/post/{{post.id}}/like" class="w-fit"><div class="flex items-center gap-1 hover:text-red-500 transition-all duration-75
+            <form action="{{path('app_post_like', {'id': post.id, 'target': path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params'))})}}" method="post" class="w-fit cusror-pointer">
+            <button class="flex items-center gap-1 hover:text-red-500 transition-all duration-75
             "><i style="width:20px" class="fas fa-heart   
             {% if post.likes.contains(app.user) %}
             text-red-500
             {% endif %}
-            "></i>{{post.likes | length}}</div></a>
+            "></i>{{post.likes | length}}</button></form>
             </div>
             {% if showcomments == 1 %}
             {% if post.createdAt|date('d/m/Y') == now|date('d/m/Y') %}

@@ -151,8 +151,8 @@ class PostController extends AbstractController
         ]);
     }
     // retweet
-    #[Route('/post/{id}/retweet', name: 'app_post_retweet', methods: ['GET'])]
-    public function retweet($id)
+    #[Route('/post/{id}/retweet', name: 'app_post_retweet', methods: ['POST'])]
+    public function retweet(Request $request, $id)
     {
         $post = $this->em->getRepository(Post::class)->find($id);
         $isRetweeted = $post->getRetweet()->contains($this->getUser());
@@ -164,11 +164,18 @@ class PostController extends AbstractController
         }
         $this->em->flush();
         
-        return $this->redirectToRoute('app_post');
+        $target = $request->query->get('target');
+        if ($target == null) {$target = '/';}
+
+        try{
+            return $this->redirect($target);
+        }catch(\Exception $e){
+            return $this->redirectToRoute('app_post');
+        }
     }
     // like
-    #[Route('/post/{id}/like', name: 'app_post_like', methods: ['GET'])]
-    public function like($id)
+    #[Route('/post/{id}/like', name: 'app_post_like', methods: ['POST'])]
+    public function like(Request $request, $id)
     {
         $post = $this->em->getRepository(Post::class)->find($id);
         $isLiked = $post->getLikes()->contains($this->getUser());
@@ -179,7 +186,15 @@ class PostController extends AbstractController
             $post->setLastModified(new \DateTimeImmutable());
         }
         $this->em->flush();
-        return $this->redirectToRoute('app_post');
+        
+        $target = $request->query->get('target');
+        if ($target == null) {$target = '/';}
+
+        try{
+            return $this->redirect($target);
+        }catch(\Exception $e){
+            return $this->redirectToRoute('app_post');
+        }
     }
 
     // delete

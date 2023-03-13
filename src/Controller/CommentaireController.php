@@ -52,6 +52,7 @@ class CommentaireController extends AbstractController
         }
         $this->em->flush();
         return $this->redirectToRoute('app_post_show', ['id' => $postLinked->getId()]);
+        
     }
 
     // delete
@@ -59,10 +60,12 @@ class CommentaireController extends AbstractController
     public function delete($id)
     {
         $comment = $this->em->getRepository(Commentaires::class)->find($id);
+        $postLinked = $comment->getLinkedPost();
         if (($comment->getCreatedBy() != $this->getUser()) && !$this->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedException();
         }
         $this->comRepository->remove($comment, true);
-        return $this->redirectToRoute('app_post');
+        return $this->redirectToRoute('app_post_show', ['id' => $postLinked->getId()]);
+
     }
 }

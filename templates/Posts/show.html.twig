@@ -26,11 +26,11 @@ Posts #{{ post.id }}
         {% include 'back.html.twig' %}
         <div class="border border-[var(--border-color)] ">
             {% if is_granted('ROLE_USER') %}
-            <div class="border-b border-[var(--border-color)] p-2 mb-4">
+            <div class="border-b border-[var(--border-color)] p-2">
     
          {% if (post.createdBy == app.user) or (is_granted('ROLE_ADMIN')) %} 
-         <form action="{{ path('app_post_delete', {'id': post.id}) }}" method="POST" onsubmit="return confirm('Etes-vous sûr de vouloir supprimer définitivement ce tweet ?');">
-            <button class="ml-4 mb-4 px-2 font-bold top-2 right-2 text-red-500 border border-red-500">
+         <form class="relative" action="{{ path('app_post_delete', {'id': post.id}) }}" method="POST" onsubmit="return confirm('Etes-vous sûr de vouloir supprimer définitivement ce tweet ?');">
+            <button class="px-2 font-bold right-4 text-red-500 border border-red-500 sm:absolute text-sm z-10">
             {% if is_granted('ROLE_ADMIN') %}
             [<i class="fas fa-user-shield"></i>]
             {% endif %}
@@ -66,7 +66,7 @@ Posts #{{ post.id }}
                 {{ component('commentaires', {commentaire: commentaire}) }}
                 </div>
             {% else %}
-                <div class="text-center mt-3">
+                <div class="text-center">
                     Il n'y a pas encore de réponses, soyez le premier à en laisser une !
                 </div>
             {% endfor %}
