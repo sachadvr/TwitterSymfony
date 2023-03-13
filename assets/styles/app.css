@@ -7,6 +7,10 @@
   --text-color: black;
   --inverted-text-color: white;
   --bg-color: white;
+  --border-color: lightgray;
+}
+::placeholder {
+  color: var(--border-color);
 }
 .h-screen {
   max-height: -webkit-fill-available;

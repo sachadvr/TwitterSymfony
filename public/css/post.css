@@ -10,7 +10,8 @@
     position: absolute;
     top: -120%;
     left: 0;
-    background-color: white;
+    background-color: var(--text-color);
+    opacity: 0.9;
     border: 1px solid black;
     border-radius: 5px;
     padding: 5px;
@@ -29,12 +30,12 @@
     left: -2.1rem;
     width: calc(2.1rem - 1px);
     height: 1px;
-    background-color: lightgray;
+    background-color: var(--text-color);
 }
 .borderCommentaire::after {
     content: "";
     position: absolute;
-    background-color: lightgray;
+    background-color: var(--text-color);
     left: -2.1rem;
     top: -85%;
     height: 135%;

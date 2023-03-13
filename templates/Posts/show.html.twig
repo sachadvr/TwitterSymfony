@@ -24,9 +24,9 @@ Posts #{{ post.id }}
 {% block body %}
 
         {% include 'back.html.twig' %}
-        <div class="border">
+        <div class="border border-[var(--border-color)] ">
             {% if is_granted('ROLE_USER') %}
-            <div class="border-b p-2 mb-4">
+            <div class="border-b border-[var(--border-color)] p-2 mb-4">
     
          {% if (post.createdBy == app.user) or (is_granted('ROLE_ADMIN')) %} 
          <form action="{{ path('app_post_delete', {'id': post.id}) }}" method="POST" onsubmit="return confirm('Etes-vous sûr de vouloir supprimer définitivement ce tweet ?');">
@@ -41,7 +41,7 @@ Posts #{{ post.id }}
         {{ component('post', {post: post, showcomments: 0, redirect: 0}) }}
 
             {% endif %}
-        <div class="border p-2 m-4">
+        <div class="border border-[var(--border-color)]  p-2 m-4">
         {{form_start(form)}}
     
     {% if errors | length > 0 %}

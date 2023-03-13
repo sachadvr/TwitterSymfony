@@ -23,7 +23,7 @@
 			{% endif %}
 		{% endif %}
 		{{ include('profile/_showprofile.html.twig') }}
-		<div class="border">
+		<div class="border border-[var(--border-color)] ">
 			<div class="flex col w-auto bg-blue-300 flex-wrap ">
 				<a href="{{path('app_profile', {'username': user.username, 'tabs': 1})}}" class="text-white font-bold p-3 flex-1 text-center flex items-center gap-2 justify-center {% if tabs == 1 %} bg-blue-500{% else %} bg-blue-300 {% endif %}
 																	          ">

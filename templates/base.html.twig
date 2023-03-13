@@ -19,6 +19,7 @@
                     --bg-color: #1a1a1a!important;
                     --text-color: #fff!important;
                     --inverted-text-color: #000!important;
+                    --border-color: #94a9ad!important;
                 }
             </style>
             {% endif %}
@@ -101,7 +102,13 @@
         </div>
         <div class="flex-1 overflow-x-hidden overflow-y-scroll h-screen sm:px-5">
             <div class="sm:mt-5">
-        {% block body %}{% endblock %}</div>
+        {% block body %}{% endblock %}
+            <footer>
+                <div class="flex justify-center items-center h-8 bg-blue-400 text-white">
+                    <span class="text-sm">Twitter &copy; 2021</span>
+                </div>
+            </footer>
+        </div>
         </div>
         </div>
     </body>

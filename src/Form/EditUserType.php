@@ -24,7 +24,7 @@ class EditUserType extends AbstractType
             'label' => 'false',
             'attr' => [
                 'placeholder' => 'Username',
-                'class' => 'border',
+                'class' => 'border border-[var(--border-color)] text-[var(--text-color)] bg-[var(--bg-color)]',
                 'value' => $options['data']->getUsername()
             ],
             'constraints' => [
@@ -47,7 +47,7 @@ class EditUserType extends AbstractType
             'label' => false,
             'attr' => [
                 'placeholder' => 'Email',
-                'class' => 'border',
+                'class' => 'border border-[var(--border-color)] text-[var(--text-color)] bg-[var(--bg-color)]',
                 'value' => $options['data']->getEmail()
             ],
             'constraints' => [
@@ -63,7 +63,7 @@ class EditUserType extends AbstractType
             'label' => false,
             'mapped' => false,
             'required' => false,
-            'attr' => ['class' => 'border',
+            'attr' => ['class' => 'border border-[var(--border-color)] text-[var(--text-color)] bg-[var(--bg-color)]',
             'placeholder' => 'Mot de passe'],
             
             'constraints' => [
@@ -80,7 +80,7 @@ class EditUserType extends AbstractType
             'required' => false,
             'attr' => [
                 'placeholder' => 'Description',
-                'class' => 'border'
+                'class' => 'border border-[var(--border-color)] text-[var(--text-color)] bg-[var(--bg-color)]'
             ],
             'constraints' => [
                 new Length([

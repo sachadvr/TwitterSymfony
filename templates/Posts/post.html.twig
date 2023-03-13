@@ -24,7 +24,7 @@ Posts
 
 {% block body %}
     {% if is_granted('ROLE_USER') %}
-    <div class="border p-2">
+    <div class="border border-[var(--border-color)] p-2">
     {{form_start(form, {'enctype': 'multipart/form-data'})}}
     {% if errors | length > 0 %}
         <div class="p-5 border border-blue-500 text-blue-500 font-bold mb-5">
@@ -37,7 +37,7 @@ Posts
     {{form_widget(form.contenu)}}
      <div class="text-sm text-[var(--text-color)] font-semibold cursor-pointer
         
-        py-2 px-[.67rem] border border-[var(--inverted-text-color)] rounded-[100rem]  focus:outline-none w-fit ">
+        py-2 px-[.67rem] border border-[var(--text-color)] rounded-[100rem]  focus:outline-none w-fit ">
     <label id="label_image" for="new_tweet_image">
     <i class="fas fa-image cursor-pointer"></i>
     </label>
@@ -54,7 +54,7 @@ Posts
     {{form_end(form)}}
     {% endif %}
     
-    <div class="border sm:mt-4">
+    <div class="border border-[var(--border-color)] sm:mt-4">
     <div class="flex justify-between flex-wrap bg-blue-400 ">
     <a href="/" class="
     {% if tabs %}bg-blue-400{% else %}bg-blue-500{% endif %}
@@ -71,7 +71,7 @@ Posts
     <i class="fas fa-sync-alt"></i>
     Rafraichir</a>
     </div>
-    <div class="post_container mb-4">
+    <div class="post_container">
     {% for post in posts %}
     {{ component('post', {post: post, showcomments: 1, redirect: 1}) }}
     {% else %}
@@ -85,6 +85,12 @@ Posts
     </div>
     {% endif %}
     {% endfor %}
+    <div class="flex items-center justify-center">
+    <a href="{{ path('app_post') }}" class="btn bg-[var(--text-color)] rounded-full px-4 py-2 font-bold text-[var(--inverted-text-color)] hover:bg-blue-500
+    ">
+    <i class="fas fa-arrow-up"></i> Recharger
+    </a>
+    </div>
     </div>
     </div>
 {% endblock %}
