@@ -3,11 +3,12 @@
     <div class="flex-1">
     {% if (commentaire.createdBy == app.user) or (is_granted('ROLE_ADMIN')) %} 
          <form action="{{ path('app_comment_delete', {'id': commentaire.id}) }}" method="POST" onsubmit="return confirm('Etes-vous sûr de vouloir supprimer définitivement ce tweet ?');">
-            <button class="px-2 font-bold top-2 right-2 text-red-500 border border-red-500 sm:absolute text-sm">
+            <button class="px-1 font-bold top-2 right-2 text-red-500 border border-red-500 sm:absolute text-xs flex items-center gap-1 z-10">
             {% if is_granted('ROLE_ADMIN') %}
-            [<i class="fas fa-user-shield"></i>]
+            [<i class="fas fa-user-shield text-xs"></i>]
+             {% else %}
+            [<i class="fas fa-trash-alt text-xs"></i>]
             {% endif %}
-            <i class="fas fa-trash-alt"></i>
             Supprimer le tweet</button>
         </form>
     {% endif %}

@@ -71,7 +71,7 @@
             <p class="text-xs right-2 bottom-2 absolute">{{ post.createdAt | date('d/m/Y') }}</p>
             {% endif %}
             {% elseif showcomments == 0 %}
-                <p class="text-xs right-2 bottom-2 absolute">{{ post.createdAt | date('d/m/Y [H:i]') }}</p>
+                <p class="text-xs right-4 bottom-2 absolute">{{ post.createdAt | date('d/m/Y [H:i]') }}</p>
             {% endif %}
             {% if (show == 1) and (showcomments == 1) %}
     {% set break = false %}

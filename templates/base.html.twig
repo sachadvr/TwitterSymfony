@@ -4,14 +4,23 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
 
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        <title>{% block title %}Twitter{% endblock %}</title>
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&display=swap" rel="stylesheet">
 
+        <meta name="description" content="Clone de Twitter en Symfony par sachadvr">
+        <meta name="keywords" content="Twitter, Symfony, PHP, SachaDVR, Clone">
+        <meta name="apple-mobile-web-app-title" content="Twitter">
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/twitter.svg') }}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/twitter.svg') }}">
+        <link rel="icon" type="image/png" sizes="16x16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciICB2aWV3Qm94PSIwIDAgNDggNDgiIHdpZHRoPSI0OHB4IiBoZWlnaHQ9IjQ4cHgiPjxwYXRoIGZpbGw9IiMwM0E5RjQiIGQ9Ik00MiwxMi40MjljLTEuMzIzLDAuNTg2LTIuNzQ2LDAuOTc3LTQuMjQ3LDEuMTYyYzEuNTI2LTAuOTA2LDIuNy0yLjM1MSwzLjI1MS00LjA1OGMtMS40MjgsMC44MzctMy4wMSwxLjQ1Mi00LjY5MywxLjc3NkMzNC45NjcsOS44ODQsMzMuMDUsOSwzMC45MjYsOWMtNC4wOCwwLTcuMzg3LDMuMjc4LTcuMzg3LDcuMzJjMCwwLjU3MiwwLjA2NywxLjEyOSwwLjE5MywxLjY3Yy02LjEzOC0wLjMwOC0xMS41ODItMy4yMjYtMTUuMjI0LTcuNjU0Yy0wLjY0LDEuMDgyLTEsMi4zNDktMSwzLjY4NmMwLDIuNTQxLDEuMzAxLDQuNzc4LDMuMjg1LDYuMDk2Yy0xLjIxMS0wLjAzNy0yLjM1MS0wLjM3NC0zLjM0OS0wLjkxNGMwLDAuMDIyLDAsMC4wNTUsMCwwLjA4NmMwLDMuNTUxLDIuNTQ3LDYuNTA4LDUuOTIzLDcuMTgxYy0wLjYxNywwLjE2OS0xLjI2OSwwLjI2My0xLjk0MSwwLjI2M2MtMC40NzcsMC0wLjk0Mi0wLjA1NC0xLjM5Mi0wLjEzNWMwLjk0LDIuOTAyLDMuNjY3LDUuMDIzLDYuODk4LDUuMDg2Yy0yLjUyOCwxLjk2LTUuNzEyLDMuMTM0LTkuMTc0LDMuMTM0Yy0wLjU5OCwwLTEuMTgzLTAuMDM0LTEuNzYxLTAuMTA0QzkuMjY4LDM2Ljc4NiwxMy4xNTIsMzgsMTcuMzIxLDM4YzEzLjU4NSwwLDIxLjAxNy0xMS4xNTYsMjEuMDE3LTIwLjgzNGMwLTAuMzE3LTAuMDEtMC42MzMtMC4wMjUtMC45NDVDMzkuNzYzLDE1LjE5Nyw0MS4wMTMsMTMuOTA1LDQyLDEyLjQyOSIvPjwvc3ZnPg==">
+        <link rel="mask-icon" href="{{ asset('images/twitter.svg') }}" color="#60a5fa">
+        <link rel="shortcut icon" href="{{ asset('images/twitter.svg') }}">
+        <meta name="msapplication-TileColor" content="#60a5fa">
+        <meta name="theme-color" content="#ffffff">
         {% block stylesheets %}
             {% if app.user and app.user.darkmode == 1 %}
             <style>

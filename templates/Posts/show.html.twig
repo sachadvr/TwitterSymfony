@@ -26,22 +26,23 @@ Posts #{{ post.id }}
         {% include 'back.html.twig' %}
         <div class="border border-[var(--border-color)] ">
             {% if is_granted('ROLE_USER') %}
-            <div class="border-b border-[var(--border-color)] p-2">
+            <div class="border-b border-[var(--border-color)] ">
     
          {% if (post.createdBy == app.user) or (is_granted('ROLE_ADMIN')) %} 
          <form class="relative" action="{{ path('app_post_delete', {'id': post.id}) }}" method="POST" onsubmit="return confirm('Etes-vous sûr de vouloir supprimer définitivement ce tweet ?');">
-            <button class="px-2 font-bold right-4 text-red-500 border border-red-500 sm:absolute text-sm z-10">
+            <button class="max-sm:ml-2 max-sm:mt-2 px-1 font-bold top-4 right-4 text-red-500 border border-red-500 sm:absolute text-xs z-10 flex items-center gap-1">
             {% if is_granted('ROLE_ADMIN') %}
-            [<i class="fas fa-user-shield"></i>]
+            [<i class="fas fa-user-shield text-xs"></i>]
+            {% else %}
+            [<i class="fas fa-trash-alt text-xs"></i>]
             {% endif %}
-            <i class="fas fa-trash-alt"></i>
             Supprimer le tweet</button>
         </form>
         {% endif %}
         {{ component('post', {post: post, showcomments: 0, redirect: 0}) }}
 
             {% endif %}
-        <div class="border border-[var(--border-color)]  p-2 m-4">
+        <div class="border border-[var(--border-color)] p-2">
         {{form_start(form)}}
     
     {% if errors | length > 0 %}
