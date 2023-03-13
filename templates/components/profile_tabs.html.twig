@@ -1,5 +1,6 @@
 {% if tabs == 1 %}
-<h2 class="text-bold ml-4 mb-3 font-bold">Derniers tweets</h2>
+<h2 class="text-bold ml-4 mb-3 font-bold">Derniers tweets</h2> 
+<div class="[&>*]:border-b [&>*]:border-[var(--dark-border-color)]">
           {% for post in user.getPosts() %}
           {{component('post', {'post': post, showcomments: 0, redirect: 1})}}
           {% else %}
@@ -7,9 +8,11 @@
                 <p class="text-bold">Cet utilisateur n'a pas encore effectué de tweets  <i class="far fa-frown"></i></p>
             </div>
           {% endfor %}
+</div>
 {% endif %}
 {% if tabs == 2 %}
 <h2 class="text-bold ml-4 mb-3 font-bold">Derniers likes</h2>
+<div class="[&>*]:border-b [&>*]:border-[var(--dark-border-color)]">
           {% for like in user.getLikes() %}
           {{component('post', {'post': like, showcomments: 0, redirect: 1})}}
           {% else %}
@@ -17,9 +20,11 @@
                 <p class="text-bold">Cet utilisateur n'a pas encore effectué de likes  <i class="far fa-frown"></i></p>
             </div>
           {% endfor %}
+</div>
           {% endif %}
 {% if tabs == 3 %}
 <h2 class="text-bold ml-4 mb-3 font-bold">Derniers retweets</h2>
+<div class="[&>*]:border-b [&>*]:border-[var(--dark-border-color)]">
           {% for retweet in user.getRetweets() %}
           {{component('post', {'post': retweet, showcomments: 0, redirect: 1})}}
           {% else %}
@@ -27,9 +32,11 @@
                 <p class="text-bold">Cet utilisateur n'a pas encore effectué de retweets <i class="far fa-frown"></i></p>
             </div>
           {% endfor %}
+</div>
 {% endif %}
 {% if tabs == 4 %}
 <h2 class="text-bold ml-4 mb-3 font-bold">Dernières réponses à des tweets</h2>
+<div class="[&>*]:border-b [&>*]:border-[var(--dark-border-color)]">
           {% for commentaire in user.getCommentaires() %}
           {{component('post', {'post': commentaire.getLinkedPost(), showcomments: 0, redirect: 1})}}
           <div class="relative ml-10 p-4 pl-0">
@@ -40,4 +47,5 @@
                 <p class="text-bold">Cet utilisateur n'a pas encore effectué de réponses <i class="far fa-frown"></i></p>
             </div>
           {% endfor %}
+</div>
 {% endif %}

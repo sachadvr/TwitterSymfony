@@ -1,5 +1,5 @@
 {% if is_granted('ROLE_USER') %}
             {% if app.user.following.contains(createdBy) %}
-    <span class="text-blue-500"> &#8226; Suivi</span>
+    <span class="text-blue-500 text-sm"> &#8226; Suivi</span>
 {% endif %}
 {% endif %}
