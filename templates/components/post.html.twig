@@ -9,7 +9,7 @@
     onclick="redirect('{{ path('app_post_show', {'id': post.id}) }}')"
     {% endif %}
     >
-    <a href="{{ path('app_profile', {'username': post.createdBy.username}) }}" class="h-fit"><img src="{{ asset(images_path ~ post.createdBy.getImagePath()) }}" alt="profile picture" class="h-10 w-10 object-cover bg-white rounded-full flex-grow-0"></a>
+    <a href="{{ path('app_profile', {'username': post.createdBy.username}) }}" class="h-fit"><img src="{{ asset(images_path ~ post.createdBy.getImagePath()) }}" alt="profile picture" class="h-10 w-10 object-cover bg-[var(--text-color)] rounded-full flex-grow-0"></a>
     <div class="flex-1 flex flex-col">
              {% set show = null %}
              {%if app.user != null %}
