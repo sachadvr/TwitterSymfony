@@ -26,20 +26,22 @@
 .beforeCommentaire:not(:empty)::before {
     content: "";
     position: absolute;
-    top: 50%;
-    left: -2.1rem;
+    bottom: 3rem;
+    left: -2rem;
     width: calc(2.1rem - 1px);
     height: 1px;
     background-color: var(--text-color);
 }
-.borderCommentaire::after {
+.borderCommentaire {
+    position: relative;
+}
+.borderCommentaire:has(.beforeCommentaire)::after {
     content: "";
     position: absolute;
     background-color: var(--text-color);
-    left: -2.1rem;
-    top: -85%;
-    height: 135%;
+    left: 2rem;
+    top: 4.3rem;
+    height: calc(100% - 9.2rem + 1px);
     width: 1px;
-
 }
 

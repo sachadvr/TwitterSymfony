@@ -8,6 +8,8 @@
   --inverted-text-color: white;
   --bg-color: white;
   --border-color: lightgray;
+  --dark-border-color: lightgray;
+
 }
 
 ::placeholder {

@@ -1,3 +1,4 @@
+
 {% extends 'base.html.twig' %}
 
 {% block title %}
@@ -26,7 +27,7 @@ Posts #{{ post.id }}
         {% include 'back.html.twig' %}
         <div class="border border-[var(--border-color)] ">
             {% if is_granted('ROLE_USER') %}
-            <div class="border-b border-[var(--border-color)] ">
+            <div class="border border-[var(--text-color)] ">
     
          {% if (post.createdBy == app.user) or (is_granted('ROLE_ADMIN')) %} 
          <form class="relative" action="{{ path('app_post_delete', {'id': post.id}) }}" method="POST" onsubmit="return confirm('Etes-vous sûr de vouloir supprimer définitivement ce tweet ?');">

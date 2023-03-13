@@ -71,7 +71,7 @@ Posts
     <i class="fas fa-sync-alt"></i>
     Rafraichir</a>
     </div>
-    <div class="post_container">
+    <div class="post_container [&>*]:border-b [&>*]:border-[var(--dark-border-color)]">
     {% for post in posts %}
     {{ component('post', {post: post, showcomments: 1, redirect: 1}) }}
     {% else %}

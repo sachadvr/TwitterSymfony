@@ -9,7 +9,7 @@
     height: 1px;
     background-color: lightgray;
 }
-.borderCommentaire::after {
+.showborderCommentaire::after {
     content: "";
     position: absolute;
     background-color: lightgray;
