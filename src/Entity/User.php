@@ -63,6 +63,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $image_path = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $darkmode = null;
+
 
     public function __construct()
     {
@@ -346,6 +349,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setImagePath(string $image_path): self
     {
         $this->image_path = $image_path;
+
+        return $this;
+    }
+
+    public function getDarkmode(): ?int
+    {
+        return $this->darkmode;
+    }
+
+    public function setDarkmode(?int $darkmode): self
+    {
+        $this->darkmode = $darkmode;
 
         return $this;
     }

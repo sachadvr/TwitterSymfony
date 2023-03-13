@@ -13,25 +13,38 @@
         <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&display=swap" rel="stylesheet">
 
         {% block stylesheets %}
+            {% if app.user and app.user.darkmode == 1 %}
+            <style>
+                :root {
+                    --bg-color: #1a1a1a!important;
+                    --text-color: #fff!important;
+                    --inverted-text-color: #000!important;
+                }
+            </style>
+            {% endif %}
+
             {{ encore_entry_link_tags('app') }}
+
+            
         {% endblock %}
 
         {% block javascripts %}
           <script src="https://cdn.tailwindcss.com"></script>
             {{ encore_entry_script_tags('app') }}
+           
         {% endblock %}
     </head>
-    <body class="max-w-6xl mx-auto h-screen">
+    <body class="max-w-6xl mx-auto h-screen bg-[var(--bg-color)] text-[var(--text-color)]">
         <div class="relative flex flex-row ">
-        
-        <div class=" flex border h-screen bg-blue-400 flex-col max-sm:items-center sm:basis-3/12 transition-all duration-300 ease-in-out
+
+        <div class=" flex border border-[var(--inverted-text-color)] h-screen bg-blue-400 flex-col max-sm:items-center sm:basis-3/12 transition-all duration-300 ease-in-out
         ">
         <div class="logo pr-5 pl-5 mt-5 flex gap-4 items-center">
         <i class="fab fa-twitter text-white text-2xl"></i>
         <span class="text-sm max-sm:hidden font-bold text-white">Twitter</span>
         </div>
         <div class="homepage mt-5 ">
-            <a href="{{ path('app_post') }}" class=" text-black font-bold px-6 flex gap-4 items-center hover:bg-blue-300 py-5
+            <a href="{{ path('app_post') }}" class=" text-white font-bold px-6 flex gap-4 items-center hover:bg-blue-300 py-5
             ">
             <i class="fas fa-home text-xl"></i>
             <span class="text-sm max-sm:hidden">Accueil</span>
@@ -47,6 +60,7 @@
             </a>
         </div>
         {% endif %}
+        
         {% if not (is_granted('ROLE_USER')) %}
         
          <div class="isconnecte mt-auto">
@@ -55,7 +69,21 @@
             </a>
         </div>
         {% else %}
-        
+  <div clas="mt-5">
+  <form class="flex items-center gap-3 hover:bg-blue-300 py-5 px-5 cursor-pointer" action="{{ path('app_dark') }}" method="post">
+    <input
+      class="h-3.5 w-8 appearance-none rounded-[0.4375rem] bg-neutral-300 before:pointer-events-none before:absolute before:h-3.5 before:w-3.5 before:rounded-full before:bg-transparent before:content-[''] after:absolute after:z-[2] after:-mt-[0.1875rem] after:h-5 after:w-5 after:rounded-full after:border-none after:bg-neutral-100 after:shadow-[0_0px_3px_0_rgb(0_0_0_/_7%),_0_2px_2px_0_rgb(0_0_0_/_4%)] after:transition-[background-color_0.2s,transform_0.2s] after:content-[''] checked:bg-black checked:after:absolute checked:after:z-[2] checked:after:-mt-[3px] checked:after:ml-[1.0625rem] checked:after:h-5 checked:after:w-5 checked:after:rounded-full checked:after:border-none checked:after:bg-primary dark:checked:after:bg-primary checked:after:shadow-[0_3px_1px_-2px_rgba(0,0,0,0.2),_0_2px_2px_0_rgba(0,0,0,0.14),_0_1px_5px_0_rgba(0,0,0,0.12)] checked:after:transition-[background-color_0.2s,transform_0.2s] checked:after:content-[''] hover:cursor-pointer"
+      type="checkbox"
+      role="switch"
+      id="flexSwitchCheckDefault" onchange="this.form.submit()" {% if app.user and app.user.darkmode == 1 %} checked {% endif %}
+      />
+    <label
+      class="text-sm max-sm:hidden font-bold text-white"
+      for="flexSwitchCheckDefault"
+      >Dark</label
+    >
+    </form>
+</div>
         <div class="isconnecte  mt-auto">
             <a href="{{ path('app_logout') }}" class="text-white flex items-center gap-5 hover:bg-blue-300 py-5 px-6">
             <i class="fas fa-sign-out-alt text-xl"></i>

@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+
+:root{
+  --text-color: black;
+  --inverted-text-color: white;
+  --bg-color: white;
+}
 .h-screen {
   max-height: -webkit-fill-available;
 }

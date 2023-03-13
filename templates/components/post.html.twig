@@ -38,18 +38,18 @@
              {% include '/components/_following.html.twig' with {'createdBy': post.createdBy} %}
     </a>
             {% if post.image != null %}
-                <img src="{{ asset(post_images_path ~ post.image) }}" alt="image" class="w-full h-auto rounded-lg max-h-80 {% if redirect == 1 %}object-cover{% else %}object-contain bg-black{% endif %} cursor-pointer"
+                <img src="{{ asset(post_images_path ~ post.image) }}" alt="image" class="w-full h-auto rounded-lg max-h-80 {% if redirect == 1 %}object-cover{% else %}object-contain bg-[var(--text-color)]{% endif %} cursor-pointer"
                 onclick="window.location.href = '{{asset(post_images_path ~ post.image)}}';"
                 >
             {% endif %}
             <div>{{ this.replacedContent(post.contenu) |raw  }}</div>
             <div class="flex flex-row gap-3 w-fit">
             <a href="/post/{{post.id}}/retweet" class="w-fit"><div class="flex items-center gap-1 
-            "><i style="width:20px" class="fas fa-retweet  hover:bg-green-300 transition-all rounded-full
+            "><i style="width:20px" class="fas fa-retweet  hover:text-green-400 transition-all rounded-full
             {# on hover only hover the next child #}
             
             {% if post.retweet.contains(app.user) %}
-            bg-green-200
+            text-green-300
             {% endif %}
             "></i><div>{{post.retweet | length}}</div></div></a>
             
