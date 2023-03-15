@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Custom\LastRoute;
 use App\Entity\Followers;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -36,7 +37,7 @@ class ProfileController extends AbstractController
     }
     // app_follow
     #[Route('/user/{username}/follow', name: 'app_follow')]
-    public function follow($username): Response
+    public function follow(Request $request, $username): Response
     {
         $follow = $this->em->getRepository(User::class)->findOneBy(['username' => $username]);
         $follower = $this->getUser()->getUserEntity();
@@ -59,7 +60,8 @@ class ProfileController extends AbstractController
         $this->em->flush();
 
         }
-        return $this->redirectToRoute('app_profile', ['username' => $username]);
+        $route = new LastRoute();
+        return $this->redirect($route->getLastRoute($request));
     }
 
 }

@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Custom\LastRoute;
 use App\Entity\Commentaires;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\CommentairesRepository;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -24,9 +26,12 @@ class CommentaireController extends AbstractController
 
     // retweet
     #[Route('/comment/{id}/retweet', name: 'app_comment_retweet', methods: ['GET'])]
-    public function retweet($id)
+    public function retweet(Request $request, $id)
     {
         $comment = $this->em->getRepository(Commentaires::class)->find($id);
+        if (!$comment) {
+            throw new AccessDeniedException('Commentaire introuvable');
+        }
         $postLinked = $comment->getLinkedPost();
         $isRetweeted = $comment->getRetweet()->contains($this->getUser());
         if ($isRetweeted) {
@@ -36,13 +41,17 @@ class CommentaireController extends AbstractController
         }
         $this->em->flush();
         
-        return $this->redirectToRoute('app_post_show', ['id' => $postLinked->getId()]);
+        $route = new LastRoute();
+        return $this->redirect($route->getLastRoute($request));
     }
     // like
     #[Route('/comment/{id}/like', name: 'app_comment_like', methods: ['GET'])]
-    public function like($id)
+    public function like(Request $request, $id)
     {
         $comment = $this->em->getRepository(Commentaires::class)->find($id);
+        if (!$comment) {
+            throw new AccessDeniedException('Commentaire introuvable');
+        }
         $postLinked = $comment->getLinkedPost();
         $isLiked = $comment->getLikes()->contains($this->getUser());
         if ($isLiked) {
@@ -51,21 +60,27 @@ class CommentaireController extends AbstractController
             $comment->addLike($this->getUser());
         }
         $this->em->flush();
-        return $this->redirectToRoute('app_post_show', ['id' => $postLinked->getId()]);
         
+        $route = new LastRoute();
+        return $this->redirect($route->getLastRoute($request));
     }
 
     // delete
     #[Route('/comment/{id}/delete', name: 'app_comment_delete', methods: ['POST'])]
-    public function delete($id)
+    public function delete(Request $request, $id)
     {
         $comment = $this->em->getRepository(Commentaires::class)->find($id);
+        if (!$comment) {
+            throw new AccessDeniedException('Commentaire introuvable');
+        }
         $postLinked = $comment->getLinkedPost();
         if (($comment->getCreatedBy() != $this->getUser()) && !$this->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedException();
         }
         $this->comRepository->remove($comment, true);
-        return $this->redirectToRoute('app_post_show', ['id' => $postLinked->getId()]);
+       
+        $route = new LastRoute();
+        return $this->redirect($route->getLastRoute($request));
 
     }
 }

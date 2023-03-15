@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Uid\Uuid;
 
+use App\Custom\LastRoute;
 
 class PostController extends AbstractController
 {
@@ -129,7 +130,8 @@ class PostController extends AbstractController
     
         $post = $this->em->getRepository(Post::class)->find($id);
         if (!$post) {
-            throw $this->createNotFoundException('No post found for id ' . $id);
+            return $this->redirectToRoute('app_post');
+
         }
 
         $username_list = null;
@@ -165,6 +167,10 @@ class PostController extends AbstractController
     public function retweet(Request $request, $id)
     {
         $post = $this->em->getRepository(Post::class)->find($id);
+        if (!$post) {
+            return $this->redirect('app_post');
+
+        }
         $isRetweeted = $post->getRetweet()->contains($this->getUser());
         if ($isRetweeted) {
             $post->removeRetweet($this->getUser());
@@ -174,20 +180,20 @@ class PostController extends AbstractController
         }
         $this->em->flush();
         
-        $target = $request->query->get('target');
-        if ($target == null) {$target = '/';}
 
-        try{
-            return $this->redirect($target);
-        }catch(\Exception $e){
-            return $this->redirectToRoute('app_post');
-        }
+        $route = new LastRoute();
+        return $this->redirect($route->getLastRoute($request));
     }
     // like
     #[Route('/post/{id}/like', name: 'app_post_like', methods: ['POST'])]
     public function like(Request $request, $id)
     {
         $post = $this->em->getRepository(Post::class)->find($id);
+        if (!$post) {
+            return $this->redirect('app_post');
+
+        }
+
         $isLiked = $post->getLikes()->contains($this->getUser());
         if ($isLiked) {
             $post->removeLike($this->getUser());
@@ -197,26 +203,26 @@ class PostController extends AbstractController
         }
         $this->em->flush();
         
-        $target = $request->query->get('target');
-        if ($target == null) {$target = '/';}
 
-        try{
-            return $this->redirect($target);
-        }catch(\Exception $e){
-            return $this->redirectToRoute('app_post');
-        }
+        $route = new LastRoute();
+        return $this->redirect($route->getLastRoute($request));
     }
 
     // delete
     #[Route('/post/{id}/delete', name: 'app_post_delete', methods: ['POST'])]
-    public function delete($id)
+    public function delete(Request $request, $id)
     {
         $post = $this->em->getRepository(Post::class)->find($id);
+        if (!$post) {
+            return $this->redirectToRoute('app_post');
+        }
         // but if the user is an admin, he can delete the post
         if (($post->getCreatedBy() != $this->getUser()) && !$this->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedException();
         }
         $this->postRepository->remove($post, true);
-        return $this->redirectToRoute('app_post');
+
+        $route = new LastRoute();
+        return $this->redirect($route->getLastRoute($request));
     }
 }

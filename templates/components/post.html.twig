@@ -46,7 +46,7 @@
             {% endif %}
             <div>{{ this.replacedContent(post.contenu) |raw  }}</div>
             <div class="flex flex-row gap-3 w-fit">
-            <form action="{{path('app_post_retweet', {'id': post.id, 'target': path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params'))})}}" method="post" class="w-fit cusror-pointer">
+            <form action="{{path('app_post_retweet', {'id': post.id})}}" method="post" class="w-fit cusror-pointer">
             <button class="flex items-center gap-1 
             ">
             <i style="width:20px" class="fas fa-retweet  hover:text-green-400 transition-all duration-75
@@ -57,7 +57,7 @@
             {% endif %}
             "></i><div>{{post.retweet | length}}</div></button></form>
             
-            <form action="{{path('app_post_like', {'id': post.id, 'target': path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params'))})}}" method="post" class="w-fit cusror-pointer">
+            <form action="{{path('app_post_like', {'id': post.id})}}" method="post" class="w-fit cusror-pointer">
             <button class="flex items-center gap-1 hover:text-red-500 transition-all duration-75
             "><i style="width:20px" class="fas fa-heart   
             {% if post.likes.contains(app.user) %}

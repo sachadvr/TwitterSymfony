@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Custom\LastRoute;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +16,7 @@ class DarkModeController extends AbstractController
     {
         $this->em = $em;
     }
-    #[Route('/dark', name: 'app_dark')]
+    #[Route('/dark', name: 'app_dark', methods: ['POST'])]
     public function index(Request $request) : Response
     {
         if ($this->getUser()) {
@@ -31,15 +32,8 @@ class DarkModeController extends AbstractController
         $this->em->persist($user);
         $this->em->flush();
 
-        $target = $request->query->get('target');
-        if ($target == null) {$target = '/';}
-
-        try{
-            return $this->redirect($target);
-        }catch(\Exception $e){
-            return $this->redirectToRoute('app_post');
-        }
-
+        $route = new LastRoute();
+        return $this->redirect($route->getLastRoute($request));
 
     }
 }
