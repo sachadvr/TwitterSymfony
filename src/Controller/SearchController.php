@@ -19,33 +19,36 @@ class SearchController extends AbstractController
     {
         $this->em = $em;
     }
-    #[Route('/search/{str}', name: 'search')]
-    public function index(Request $request, $str): Response
-    {
-        // $users = $this->em->getRepository(User::class)->findBy(['username' => $str]);
-        // $posts = $this->em->getRepository(Post::class)->findBy(['contenu' => $str]);
-        // $comments = $this->em->getRepository(Commentaires::class)->findBy(['content' => $str]);
 
-        //now that that starts with str or contains str
+    #[Route('/search/{searchbar}', name: 'search_index')]
+    public function index($searchbar): Response
+    {
+
+        // $users = $this->em->getRepository(User::class)->findBy(['username' => $searchbar]);
+        // $posts = $this->em->getRepository(Post::class)->findBy(['contenu' => $searchbar]);
+        // $comments = $this->em->getRepository(Commentaires::class)->findBy(['content' => $searchbar]);
+
+        //now that that starts with searchbar or contains searchbar
         $users = $this->em->getRepository(User::class)->createQueryBuilder('u')
-            ->where('u.username LIKE :str')
-            ->setParameter('str', '%'. $str . '%')
+            ->where('u.username LIKE :searchbar')
+            ->setParameter('searchbar', '%'. $searchbar . '%')
             ->getQuery()
             ->getResult();
         $posts = $this->em->getRepository(Post::class)->createQueryBuilder('p')
-            ->where('p.contenu LIKE :str')
-            ->setParameter('str', '%'. $str . '%')
+            ->where('p.contenu LIKE :searchbar')
+            ->setParameter('searchbar', '%'. $searchbar . '%')
             ->getQuery()
             ->getResult();
         $comments = $this->em->getRepository(Commentaires::class)->createQueryBuilder('c')
-            ->where('c.contenu LIKE :str')
-            ->setParameter('str', '%'. $str . '%')
+            ->where('c.contenu LIKE :searchbar')
+            ->setParameter('searchbar', '%'. $searchbar . '%')
             ->getQuery()
             ->getResult();
 
-        dd($users, $posts, $comments);
         return $this->render('search/index.html.twig', [
-            'controller_name' => 'SearchController',
+            'users' => $users,
+            'posts' => $posts,
+            'comments' => $comments,
         ]);
     }
 

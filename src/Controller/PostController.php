@@ -8,12 +8,12 @@ use App\Entity\Post;
 use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\NewTweetType;
 use App\Entity\User;
 use App\Form\NewCommentairesType;
+use App\Form\SearchBarFormType;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -73,6 +73,14 @@ class PostController extends AbstractController
             }
         $form = $this->createForm(NewTweetType::class);
         $form->handleRequest($request);
+
+        $search = $this->createForm(SearchBarFormType::class);
+        $search->handleRequest($request);
+        if ($search->isSubmitted() && $search->isValid()) {
+            $searchdata = $search->getData()['searchbar'];
+            return $this->redirectToRoute('search_index', ['searchbar' => $searchdata]);
+        }
+
         if ($form->isSubmitted() && $form->isValid()) {
             $post = $form->getData();
             $post->setCreatedAt(new \DateTimeImmutable());
@@ -110,6 +118,8 @@ class PostController extends AbstractController
             'errors' => $form->getErrors(true, true),
             'tabs' => ($request->query->get('tabs') == null) ? false : true,
             'username_list' => $username_list,
+            'search' => $search->createView(),
+            'searchdata' => $search->getData()['search'] ?? "test",
         ));
     }
 

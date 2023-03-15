@@ -11,6 +11,9 @@ final class CommentairesComponent
 {
     public Commentaires $commentaire;
     private EntityManagerInterface $em;
+    
+    public int $redirect;
+    
 
     public function __construct(Commentaires $commentaire, EntityManagerInterface $em)
     {

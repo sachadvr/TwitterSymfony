@@ -24,7 +24,7 @@ Posts #{{ post.id }}
 
 {% block body %}
 
-        {% include 'back.html.twig' %}
+        {% include('back.html.twig') %}
         <div class="border border-[var(--border-color)] ">
             {% if is_granted('ROLE_USER') %}
             <div class="border border-[var(--text-color)] ">
@@ -65,7 +65,7 @@ Posts #{{ post.id }}
         <div class="ml-8 mr-1 flex flex-col p-3 relative">
             {% for commentaire in commentaires %}
                 <div class="my-1">
-                {{ component('commentaires', {commentaire: commentaire}) }}
+                {{ component('commentaires', {commentaire: commentaire, redirect: 0}) }}
                 </div>
             {% else %}
                 <div class="text-center">

@@ -11,7 +11,8 @@ Posts
 
 {% block javascripts %}
 {{ parent() }}
-<script src="{{ asset('js/post.js') }}" defer></script>
+<script src="{{ asset('js/basic.js') }}"></script>
+<script src="{{ asset('js/preview.js') }}" defer></script>
 <script src="{{ asset('js/autocomplete.js') }}"></script>
 <script>
     window.onload = function() {
@@ -24,6 +25,7 @@ Posts
 
 {% block body %}
     {% if is_granted('ROLE_USER') %}
+    {% include('search/_search.html.twig') %}
     <div class="border border-[var(--border-color)] p-2">
     {{form_start(form, {'enctype': 'multipart/form-data'})}}
     {% if errors | length > 0 %}

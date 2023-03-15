@@ -1,0 +1,8 @@
+{{ form_start(search, {'method': 'POST'}) }}
+<div class="relative flex items-center mb-2 text-[var(--text-color)] border border-[var(--border-color)] sm:rounded-md
+">
+<i class="fa fa-search absolute left-2"></i>
+{{ form_widget(search.searchbar) }}
+<button class="px-4 py-2 bg-[var(--bg-color)] border" type="submit">Rechercher</button>
+</div>
+{{ form_end(search) }}

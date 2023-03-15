@@ -79,8 +79,8 @@
     {% for comment in post.getCommentaires() %}
     {% if (this.containsComment(app.user, comment.createdBy)) and break == false %}
     <div class=" mr-4 mb-4 mt-2">
-            {{ component('commentaires', {commentaire: comment}) }}
-            {% set break = true %}
+            {{ component('commentaires', {commentaire: comment, 'redirect': 0}) }}
+    {% set break = true %}
     </div>
     {% endif %}       
     {% endfor %}
