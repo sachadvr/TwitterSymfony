@@ -1,4 +1,7 @@
 {% if is_granted('ROLE_USER') %}
+{% if createdBy.verified == 1 %}
+<img src="{{asset("images/verified.png")}}" class="inline-block h-4 w-4 mb-[0.15rem]" alt="Compte vérifié">
+{% endif %}
             {% if app.user.following.contains(createdBy) %}
     <span class="text-blue-500 text-sm"> &#8226; Suivi</span>
 {% endif %}
