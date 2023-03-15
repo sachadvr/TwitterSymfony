@@ -15,7 +15,7 @@ class SearchBarFormType extends AbstractType
             ->add('searchbar', TextType::class, [
                 'label' => false,
                 'attr' => [
-                    'class' => 'pl-8 w-full bg-[var(--bg-color)] rounded-md py-2',
+                    'class' => 'pl-8 w-full bg-[var(--bg-color)] sm:rounded-md py-2 focus:outline-none',
                     'onkeypress' => 'if(!event.shiftKey && event.keyCode == 13) { document.querySelector(".searchbtn").click(); event.preventDefault(); }'
                 ],
             ])
