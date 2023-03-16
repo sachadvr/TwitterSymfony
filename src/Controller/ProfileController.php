@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Custom\LastRoute;
-use App\Entity\Followers;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,9 +26,7 @@ class ProfileController extends AbstractController
             $tabs = 1;
         }
         $user = $this->em->getRepository(User::class)->findOneBy(['username' => $username]);
-        if (!$user) {
-            throw $this->createNotFoundException('User not found');
-        }
+        if (!$user) return $this->redirectToRoute('app_post');
         return $this->render('profile/index.html.twig', [
             'user' => $user,
             'now' => new \DateTimeImmutable(),
@@ -41,9 +38,10 @@ class ProfileController extends AbstractController
     public function follow(Request $request, $username, UserRepository $ur): Response
     {
         $follow = $this->em->getRepository(User::class)->findOneBy(['username' => $username]);
+        
         $follower = $ur->findByIdentifier($this->getUser()->getUserIdentifier());
         if (!$follow || !$follower) {
-            throw $this->createNotFoundException('User not found');
+            return $this->redirectToRoute('app_post');
         }
         if ($follow != $follower) {
         
