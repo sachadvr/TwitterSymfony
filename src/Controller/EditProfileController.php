@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
 
 #[Route('/edit')]
 class EditProfileController extends AbstractController 
@@ -38,9 +39,9 @@ class EditProfileController extends AbstractController
    
 
     #[Route('/edition', name: 'app_edit_profile_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request,UserPasswordHasherInterface $userPasswordHasher ): Response
+    public function edit(Request $request,UserPasswordHasherInterface $userPasswordHasher, UserRepository $ur): Response
     {
-        $user = $this->getUser()->getUserEntity();
+        $user = $ur->findByIdentifier($this->getUser()->getUserIdentifier());
         $form = $this->createForm(EditUserType::class, $user);
         $form->handleRequest($request);
         
@@ -60,7 +61,7 @@ class EditProfileController extends AbstractController
                 $image = $form->get('image')->getData();
             if ($image) {
                 
-                $path = $user->getUserEntity()->getImagePath();
+                $path = $user->getImagePath();
                 $guessPath = $user->getUsername() . '.' . $image->guessExtension();
                 if ($path != null) {
                     unlink($this->getParameter('images_directory') . $path);
@@ -101,6 +102,11 @@ class EditProfileController extends AbstractController
 
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $request->getSession()->invalidate();
+
+            // Pour prévenir l'erreur "The user object has to be serialized with its own identifier mapped by Doctrine."
+            // on vide le token de l'utilisateur (ça m'a pris 4h pour trouver ça, merci StackOverflow)
+            $this->container->get('security.token_storage')->setToken(null);
+
             $userRepository->remove($user, true);
 
         }

@@ -25,7 +25,7 @@ class CommentaireController extends AbstractController
     
 
     // retweet
-    #[Route('/comment/{id}/retweet', name: 'app_comment_retweet', methods: ['GET'])]
+    #[Route('/comment/{id}/retweet', name: 'app_comment_retweet', methods: ['POST'])]
     public function retweet(Request $request, $id)
     {
         $comment = $this->em->getRepository(Commentaires::class)->find($id);
@@ -43,7 +43,7 @@ class CommentaireController extends AbstractController
         return $this->redirect($route->getLastRoute($request));
     }
     // like
-    #[Route('/comment/{id}/like', name: 'app_comment_like', methods: ['GET'])]
+    #[Route('/comment/{id}/like', name: 'app_comment_like', methods: ['POST'])]
     public function like(Request $request, $id)
     {
         $comment = $this->em->getRepository(Commentaires::class)->find($id);

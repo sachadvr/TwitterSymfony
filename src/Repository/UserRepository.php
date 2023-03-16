@@ -63,7 +63,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
                     
                 }
             }
-        
         $this->getEntityManager()->remove($entity);
 
         if ($flush) {
@@ -83,6 +82,16 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $user->setPassword($newHashedPassword);
 
         $this->save($user, true);
+    }
+
+    public function findByIdentifier($identifier): ?User
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.email = :val')
+            ->setParameter('val', $identifier)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
     }
 
 //    /**

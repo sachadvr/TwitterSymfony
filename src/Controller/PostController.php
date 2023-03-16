@@ -7,6 +7,7 @@ use App\Entity\Commentaires;
 use App\Entity\Hashtag;
 use App\Entity\Post;
 use App\Repository\PostRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,7 +35,7 @@ class PostController extends AbstractController
     
     
     #[Route('/', name: 'app_post', methods: ['GET','POST'])]
-    public function index(Request $request)
+    public function index(Request $request, UserRepository $ur)
     {
         $post = $this->em->getRepository(Post::class)->findBy([], ['lastModified' => 'DESC']);
 
@@ -54,7 +55,7 @@ class PostController extends AbstractController
             $hashtag_list = array_map(function($hashtag) {
                 return $hashtag->getName();
             }, $hashtag_list);
-            $user = $this->getUser()->getUserEntity();
+            $user = $ur->findByIdentifier($this->getUser()->getUserIdentifier());
             $following = $user->getFollowing();
             
             $qb = $this->em->createQueryBuilder();

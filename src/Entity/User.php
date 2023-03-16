@@ -54,7 +54,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinTable(name: 'followers')]
     private Collection $followers;
 
-
+    public function serialize() {
+        return serialize($this->id);
+        }
+    
+        public function unserialize($data) {
+        $this->id = unserialize($data);
+        }
 
     #[ORM\ManyToMany(targetEntity: self::class)]
     #[ORM\JoinTable(name: 'following')]
@@ -96,10 +102,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-    public function getUserEntity(): ?self
-    {
-        return $this;
-    }
+   
     /**
      * A visual identifier that represents this user.
      *

@@ -25,21 +25,26 @@ onclick="document.querySelector('.commentaire_area').focus(); document.querySele
     </h2>
     <p>{{ this.replacedContent(commentaire.contenu) | raw}}</p>
     <div class="flex flex-row gap-3 w-fit">
-            <a href="/comment/{{commentaire.id}}/retweet" class="w-fit"><div class="flex items-center gap-1 
-            "><i style="width:20px" class="fas fa-retweet  hover:bg-green-300 transition-all rounded-full
+            
+             <form action="{{path('app_comment_retweet', {'id': commentaire.id})}}" method="post" class="w-fit cusror-pointer">
+            <button class="flex items-center gap-1 
+            ">
+            <i style="width:20px" class="fas fa-retweet  hover:text-green-400 transition-all duration-75
             {# on hover only hover the next child #}
             
             {% if commentaire.retweet.contains(app.user) %}
-            bg-green-200
+            text-green-300
             {% endif %}
-            "></i><div>{{commentaire.retweet | length}}</div></div></a>
+            "></i><div>{{commentaire.retweet | length}}</div></button></form>
             
-            <a href="/comment/{{commentaire.id}}/like" class="w-fit"><div class="flex items-center gap-1 hover:text-red-500 transition-all duration-75
+            
+             <form action="{{path('app_comment_like', {'id': commentaire.id})}}" method="post" class="w-fit cusror-pointer">
+            <button class="flex items-center gap-1 hover:text-red-500 transition-all duration-75
             "><i style="width:20px" class="fas fa-heart   
             {% if commentaire.likes.contains(app.user) %}
             text-red-500
             {% endif %}
-            "></i>{{commentaire.likes | length}}</div></a>
+            "></i>{{commentaire.likes | length}}</button></form>
             </div>
     </div>
 </div>
