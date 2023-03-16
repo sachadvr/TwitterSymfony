@@ -29,9 +29,7 @@ class CommentaireController extends AbstractController
     public function retweet(Request $request, $id)
     {
         $comment = $this->em->getRepository(Commentaires::class)->find($id);
-        if (!$comment) {
-            throw new AccessDeniedException('Commentaire introuvable');
-        }
+        if (!$comment) return $this->redirectToRoute('app_post');
         $postLinked = $comment->getLinkedPost();
         $isRetweeted = $comment->getRetweet()->contains($this->getUser());
         if ($isRetweeted) {
@@ -49,9 +47,7 @@ class CommentaireController extends AbstractController
     public function like(Request $request, $id)
     {
         $comment = $this->em->getRepository(Commentaires::class)->find($id);
-        if (!$comment) {
-            throw new AccessDeniedException('Commentaire introuvable');
-        }
+        if (!$comment) return $this->redirectToRoute('app_post');
         $postLinked = $comment->getLinkedPost();
         $isLiked = $comment->getLikes()->contains($this->getUser());
         if ($isLiked) {
@@ -70,9 +66,7 @@ class CommentaireController extends AbstractController
     public function delete(Request $request, $id)
     {
         $comment = $this->em->getRepository(Commentaires::class)->find($id);
-        if (!$comment) {
-            throw new AccessDeniedException('Commentaire introuvable');
-        }
+        if (!$comment) return $this->redirectToRoute('app_post');
         $postLinked = $comment->getLinkedPost();
         if (($comment->getCreatedBy() != $this->getUser()) && !$this->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedException();

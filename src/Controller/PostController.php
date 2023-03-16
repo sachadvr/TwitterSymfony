@@ -161,11 +161,7 @@ class PostController extends AbstractController
     {
     
         $post = $this->em->getRepository(Post::class)->find($id);
-        if (!$post) {
-            $route = new LastRoute();
-            return $this->redirect($route->getLastRoute($request));
-
-        }
+        if (!$post) return $this->redirectToRoute('app_post');
 
         $username_list = null;
         $hashtag_list = null;
@@ -227,10 +223,7 @@ class PostController extends AbstractController
     public function retweet(Request $request, $id)
     {
         $post = $this->em->getRepository(Post::class)->find($id);
-        if (!$post) {
-            return $this->redirect('app_post');
-
-        }
+        if (!$post) return $this->redirectToRoute('app_post');
         $isRetweeted = $post->getRetweet()->contains($this->getUser());
         if ($isRetweeted) {
             $post->removeRetweet($this->getUser());
@@ -249,11 +242,7 @@ class PostController extends AbstractController
     public function like(Request $request, $id)
     {
         $post = $this->em->getRepository(Post::class)->find($id);
-        if (!$post) {
-            return $this->redirect('app_post');
-
-        }
-
+        if (!$post) return $this->redirectToRoute('app_post');
         $isLiked = $post->getLikes()->contains($this->getUser());
         if ($isLiked) {
             $post->removeLike($this->getUser());
@@ -273,9 +262,7 @@ class PostController extends AbstractController
     public function delete(Request $request, $id)
     {
         $post = $this->em->getRepository(Post::class)->find($id);
-        if (!$post) {
-            return $this->redirectToRoute('app_post');
-        }
+        if (!$post) return $this->redirectToRoute('app_post');
         // but if the user is an admin, he can delete the post
         if (($post->getCreatedBy() != $this->getUser()) && !$this->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedException();
