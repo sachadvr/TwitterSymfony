@@ -21,7 +21,7 @@
 <div class="p-4 border flex-1">
 <h2 class="text-2xl font-bold underline-offset-2 underline">Réponses</h2>
 {% for user in hash.getCommentaires() %}
-    {{ component('commentaire', {commentaire: user, redirect: 1}) }}
+    {{ component('commentaires', {commentaire: user, redirect: 1}) }}
 {% endfor %}
 </div>
 {% endif %}
