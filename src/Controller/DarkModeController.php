@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use App\Repository\UserRepository;
 class DarkModeController extends AbstractController
 {
     private $em;
@@ -17,15 +17,15 @@ class DarkModeController extends AbstractController
         $this->em = $em;
     }
     #[Route('/dark', name: 'app_dark', methods: ['POST'])]
-    public function index(Request $request) : Response
+    public function index(Request $request, UserRepository $usr) : Response
     {
         if ($this->getUser()) {
-            $user = $this->getUser();
-            $currentdark = $user->getUserEntity()->getDarkMode();
+            $user = $usr->findByIdentifier($this->getUser()->getUserIdentifier());
+            $currentdark = $user->getDarkMode();
             if ($currentdark == 1) {
-                $user->getUserEntity()->setDarkMode(0);
+                $user->setDarkMode(0);
             } else {
-                $user->getUserEntity()->setDarkMode(1);
+                $user->setDarkMode(1);
             }
         }
         
