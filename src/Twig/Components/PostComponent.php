@@ -146,6 +146,15 @@ final class PostComponent
                 $contenu = str_replace('__link__', '/user/' . $username, $contenu);
             }
         }
+
+        // same for hashtags
+        preg_match_all('/#(\w+)/', $contenu, $matches);
+        $hashtags = $matches[1];
+        foreach ($hashtags as $hashtag) {
+            $link = '<a href="__link__" class="text-blue-500">#' . $hashtag . '</a>';
+            $contenu = str_replace('#' . $hashtag, $link, $contenu);
+            $contenu = str_replace('__link__', '/tag/' . $hashtag, $contenu);
+        }
     
         return $contenu;
     }

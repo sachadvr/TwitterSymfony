@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Custom\ImageOptimizer;
 use App\Entity\Commentaires;
+use App\Entity\Hashtag;
 use App\Entity\Post;
 use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -36,15 +37,23 @@ class PostController extends AbstractController
     public function index(Request $request)
     {
         $post = $this->em->getRepository(Post::class)->findBy([], ['lastModified' => 'DESC']);
-        // i want to findby createdby Desc and if the post has been retweeted by following of the user make it appear first
-        // $form from NewTweetType
+
+        // test
+
+
         $username_list = null;
+        $hashtag_list = null;
         if ($this->getUser()) {
+            
             $username_list = $this->em->getRepository(User::class)->findAll();
             $username_list = array_map(function($user) {
                 return $user->getUsername();
             }, $username_list);
 
+            $hashtag_list = $this->em->getRepository(Hashtag::class)->findAll();
+            $hashtag_list = array_map(function($hashtag) {
+                return $hashtag->getName();
+            }, $hashtag_list);
             $user = $this->getUser()->getUserEntity();
             $following = $user->getFollowing();
             
@@ -109,6 +118,27 @@ class PostController extends AbstractController
                     }
                 }
             }
+            // check in contenu hashtags
+            $contenu = $post->getContenu();
+            $hashtags = [];
+            preg_match_all('/#([a-zA-Z0-9]+)/', $contenu, $matches);
+            foreach ($matches[1] as $match) {
+                $hashtags[] = $match;
+            }
+            $hashtagRepository = $this->em->getRepository(Hashtag::class);
+            foreach ($hashtags as $hashtag) {
+                $hashtagEntity = $hashtagRepository->findOneBy(['name' => $hashtag]);
+                if (!$hashtagEntity) {
+                    $hashtagEntity = new Hashtag();
+                    $hashtagEntity->setName($hashtag);
+                    $this->em->persist($hashtagEntity);
+                }
+
+                $post->addHashtag($hashtagEntity);
+            }
+
+
+
             $this->em->persist($post);
             $this->em->flush();
             return $this->redirectToRoute('app_post');
@@ -121,6 +151,8 @@ class PostController extends AbstractController
             'username_list' => $username_list,
             'search' => $search->createView(),
             'searchdata' => $search->getData()['search'] ?? "test",
+            'hashtag_list' => $hashtag_list,
+
         ));
     }
 
@@ -130,16 +162,23 @@ class PostController extends AbstractController
     
         $post = $this->em->getRepository(Post::class)->find($id);
         if (!$post) {
-            return $this->redirectToRoute('app_post');
+            $route = new LastRoute();
+            return $this->redirect($route->getLastRoute($request));
 
         }
 
         $username_list = null;
+        $hashtag_list = null;
         if ($this->getUser()) {
             $username_list = $this->em->getRepository(User::class)->findAll();
             $username_list = array_map(function($user) {
                 return $user->getUsername();
             }, $username_list);
+
+            $hashtag_list = $this->em->getRepository(Hashtag::class)->findAll();
+            $hashtag_list = array_map(function($hashtag) {
+                return $hashtag->getName();
+            }, $hashtag_list);
         }
         $form = $this->createForm(NewCommentairesType::class);
         $form->handleRequest($request);
@@ -148,6 +187,26 @@ class PostController extends AbstractController
             $commentaire->setCreatedBy($this->getUser());
             $commentaire->setLinkedPost($post);
             $commentaire->setCreatedAt(new \DateTimeImmutable());
+
+            $contenu = $commentaire->getContenu();
+            $hashtags = [];
+            preg_match_all('/#([a-zA-Z0-9]+)/', $contenu, $matches);
+            foreach ($matches[1] as $match) {
+                $hashtags[] = $match;
+            }
+            $hashtagRepository = $this->em->getRepository(Hashtag::class);
+            foreach ($hashtags as $hashtag) {
+                $hashtagEntity = $hashtagRepository->findOneBy(['name' => $hashtag]);
+                if (!$hashtagEntity) {
+                    $hashtagEntity = new Hashtag();
+                    $hashtagEntity->setName($hashtag);
+                    $this->em->persist($hashtagEntity);
+                }
+
+                $commentaire->addHashtag($hashtagEntity);
+            }
+
+
             $this->em->persist($commentaire);
             $this->em->flush();
             return $this->redirectToRoute('app_post_show', ['id' => $id]);
@@ -160,6 +219,7 @@ class PostController extends AbstractController
             'now' => new \DateTimeImmutable(),
             'errors' => $form->getErrors(true, true),
             'username_list' => $username_list,
+            'hashtag_list' => $hashtag_list,
         ]);
     }
     // retweet

@@ -16,14 +16,15 @@ Posts
 <script src="{{ asset('js/autocomplete.js') }}"></script>
 <script>
     window.onload = function() {
-        getCompletion("new_tweet_contenu", {{ username_list | json_encode | raw }}, "users");
+        getCompletion("new_tweet_contenu", {{ username_list | json_encode | raw }}, {{ hashtag_list | json_encode | raw }}, "users");
+        
         imagePreview();
     }
-
 </script>
 {% endblock %}
 
 {% block body %}
+
     {% if is_granted('ROLE_USER') %}
     {% include('search/_search.html.twig') %}
     <div class="border border-[var(--border-color)] p-2">

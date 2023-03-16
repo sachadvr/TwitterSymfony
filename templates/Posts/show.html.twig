@@ -17,7 +17,7 @@ Posts #{{ post.id }}
 
 <script>
     window.onload = function() {
-        getCompletion("new_commentaires_contenu", {{ username_list | json_encode | raw }}, "users");
+        getCompletion("new_commentaires_contenu", {{ username_list | json_encode | raw }}, {{ hashtag_list | json_encode | raw }},"users");
     }
 </script>
 {% endblock %}

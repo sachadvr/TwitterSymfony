@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 class LastRoute
 {
     
-    public static function getLastRoute($request, $default = 'app_post')
+    public static function getLastRoute($request, $default = '/')
     {
         try{
             if($request->headers->get('referer') == null) throw new \Exception();

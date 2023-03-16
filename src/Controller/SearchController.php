@@ -34,6 +34,7 @@ class SearchController extends AbstractController
             ->setParameter('searchbar', '%'. $searchbar . '%')
             ->getQuery()
             ->getResult();
+        
         $posts = $this->em->getRepository(Post::class)->createQueryBuilder('p')
             ->where('p.contenu LIKE :searchbar')
             ->setParameter('searchbar', '%'. $searchbar . '%')
@@ -44,7 +45,7 @@ class SearchController extends AbstractController
             ->setParameter('searchbar', '%'. $searchbar . '%')
             ->getQuery()
             ->getResult();
-
+        
         return $this->render('search/index.html.twig', [
             'users' => $users,
             'posts' => $posts,

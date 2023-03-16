@@ -32,6 +32,15 @@ class CommentairesRepository extends ServiceEntityRepository
 
     public function remove(Commentaires $entity, bool $flush = false): void
     {
+        $hashtags = $entity->getHashtags();
+        foreach ($hashtags as $hashtag) {
+            $commentaires = $hashtag->getCommentaires();
+            $posts = $hashtag->getPosts();
+            if (count($commentaires) == 1 && count($posts) == 0) {
+                $this->getEntityManager()->remove($hashtag);
+            }
+        }
+
         $this->getEntityManager()->remove($entity);
 
         if ($flush) {

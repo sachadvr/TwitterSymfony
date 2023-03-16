@@ -53,6 +53,14 @@ class PostRepository extends ServiceEntityRepository
         }
         }
 
+        $hashtags = $entity->getHashtags();
+        foreach ($hashtags as $hashtag) {
+            $commentaires = $hashtag->getCommentaires();
+            $posts = $hashtag->getPosts();
+            if (count($commentaires) == 0 && count($posts) == 1) {
+                $this->getEntityManager()->remove($hashtag);
+            }
+        }
         $this->getEntityManager()->remove($entity);
 
         

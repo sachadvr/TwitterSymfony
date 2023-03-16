@@ -19,7 +19,7 @@ class NewCommentairesType extends AbstractType
             'label' => false,
             'attr' => [
                 'placeholder' => 'Répondre au tweet de @',
-                'class' => 'commentaire_area p-3 w-full outline-none resize-none text-[var(--text-color)] bg-[var(--bg-color)]',
+                'class' => 'focus:outline-none commentaire_area p-3 w-full outline-none resize-none text-[var(--text-color)] bg-[var(--bg-color)]',
                 'onkeypress' => 'if(!event.shiftKey && event.keyCode == 13) { document.querySelector(".btn").click(); event.preventDefault(); }'
             ],
             'constraints' => [

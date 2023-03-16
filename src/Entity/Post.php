@@ -43,12 +43,16 @@ class Post
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
+    #[ORM\ManyToMany(targetEntity: Hashtag::class, inversedBy: 'posts')]
+    private Collection $hashtags;
+
 
     public function __construct()
     {
         $this->commentaires = new ArrayCollection();
         $this->retweet = new ArrayCollection();
         $this->likes = new ArrayCollection();
+        $this->hashtags = new ArrayCollection();
     }
 
    
@@ -200,6 +204,30 @@ class Post
     public function setImage(?string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Hashtag>
+     */
+    public function getHashtags(): Collection
+    {
+        return $this->hashtags;
+    }
+
+    public function addHashtag(Hashtag $hashtag): self
+    {
+        if (!$this->hashtags->contains($hashtag)) {
+            $this->hashtags->add($hashtag);
+        }
+
+        return $this;
+    }
+
+    public function removeHashtag(Hashtag $hashtag): self
+    {
+        $this->hashtags->removeElement($hashtag);
 
         return $this;
     }

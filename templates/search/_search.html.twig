@@ -1,8 +1,12 @@
 {{ form_start(search, {'method': 'POST'}) }}
-<div class="relative flex items-center mb-2 text-[var(--text-color)] border border-[var(--border-color)] sm:rounded-md
+<div class="text-[var(--text-color)] border border-[var(--border-color)] sm:rounded-md mb-2 ">
+<div class="relative flex items-center 
 ">
 <i class="fa fa-search absolute left-2"></i>
 {{ form_widget(search.searchbar) }}
 <button class="px-4 py-2 bg-[var(--bg-color)] border border-[var(--border-color)] " type="submit">Rechercher</button>
 </div>
+<div class="search_completion"></div>
+</div>
 {{ form_end(search) }}
+

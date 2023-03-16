@@ -23,7 +23,9 @@ class NewTweetType extends AbstractType
                 'label' => false,
                 'attr' => [
                     'placeholder' => 'Écrivez votre tweet ici...',
-                    'class' => 'w-full p-3 outline-none resize-none text-[var(--text-color)] bg-[var(--bg-color)]',
+                    'class' => 'w-full p-3 outline-none resize-none text-[var(--text-color)] bg-[var(--bg-color)]
+                    focus:outline-none
+                    ',
                     'onkeypress' => 'if(!event.shiftKey && event.keyCode == 13) { document.querySelector(".btn").click(); event.preventDefault(); }'
                 ],
                 'constraints' => [

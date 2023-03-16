@@ -1,58 +1,58 @@
-function getCompletion(id, list, userid) {
-    if (list == null) return;
-    var new_tweet = document.getElementById(id);
-    if (new_tweet == null) return;
-    var test = list;
-    new_tweet.addEventListener("input", function() {
-        var text = new_tweet.value;
-        var regex = /@[\w-]+/g; 
-        var match = null;
-        var lastIndex = -1;
-        while ((match = regex.exec(text)) !== null) {
-            lastIndex = match.index;
-        }
-        var lastword = text.split(" ");
-        if (lastword[lastword.length - 1].indexOf("@") != 0) {
-            var completion = document.getElementById(userid);
+function getCompletion(id, usersList, hashtagsList, userid) {
+    const tweetInput = document.getElementById(id);
+    const completion = document.getElementById(userid);
+    console.log(tweetInput, completion);
+    if (!tweetInput) return;
+    if (!completion) return;
+  
+    tweetInput.addEventListener("input", function() {
+      if (tweetInput.value.length === 0)  {
             completion.innerHTML = "";
-            return;
+          return;
         }
+      let text = tweetInput.value;
+      const splitText = text.split(" ");
+      const lastWord = splitText[splitText.length - 1];
+      text = lastWord;
+      const indexAt = text.lastIndexOf("@");
+      const indexHashtag = text.lastIndexOf("#");
+      const lastIndex = Math.max(indexAt, indexHashtag);
+  
+      if (lastIndex < 0) {
+        completion.innerHTML = "";
+        return;
+      }
+  
+      const isUserList = indexAt > indexHashtag;
+      const incompleteWord = text.substring(lastIndex + 1);
+      const matchingList = isUserList ? usersList : hashtagsList;
+      if (!matchingList) return;
+  
+      const matches = matchingList.filter(item => item.toLowerCase().startsWith(incompleteWord.toLowerCase()));
+      if (matches.length === 0) return;
+  
+      completion.innerHTML = "";
+      matches.forEach(match => {
+        const item = document.createElement("span");
+        const completedText = text.substring(0, lastIndex + 1) + match;
+        item.textContent = completedText;
+        item.addEventListener("click", function() {
+            splitText[splitText.length - 1] = completedText;
+            tweetInput.value = splitText.join(" ");
 
-        if (lastIndex >= 0) { 
-            var index2 = text.indexOf(" ", lastIndex); 
-            if (index2 == -1) { 
-                index2 = text.length;
-            }
-            var username = text.substring(lastIndex + 1, index2); 
-            if (username.length > 0) {
-                var completion = document.getElementById(userid);
-                completion.innerHTML = "";
-                for (var i = 0; i < test.length; i++) {
-                    if (test[i].indexOf(username) == 0) {
-                        var user = document.createElement("span");
-                        
-                        user.innerHTML = test[i];
-                        user.addEventListener("click", function() {
-                            document.getElementById(id).value = text.substring(0, lastIndex + 1) + this.innerHTML + " ";
-                            completion.innerHTML = "";
-                        });
-                        // same for enter
-                        user.addEventListener("keydown", function(e) {
-                            if (e.keyCode == 13) {
-                                document.getElementById(id).value = text.substring(0, lastIndex + 1) + this.innerHTML + " ";
-                                completion.innerHTML = "";
-                            }
-                        });
-                        
-                        user.tabIndex = "0";
-                        user.className = "block p-2 border border-gray-300 hover:bg-gray-300 flex-1 rounded-full cursor-pointer font-bold";
-                        completion.appendChild(user);
-                    }
-                }
-            }
-        } else {
-            var completion = document.getElementById(userid);
-            completion.innerHTML = ""; 
-        }
+          completion.innerHTML = "";
+        });
+        item.addEventListener("keydown", function(e) {
+          if (e.keyCode === 13) {
+            splitText[splitText.length - 1] = completedText;
+            tweetInput.value = splitText.join(" ");
+            completion.innerHTML = "";
+          }
+        });
+        item.tabIndex = "0";
+        item.className = "block p-2 border border-gray-300 hover:bg-gray-300 flex-1 rounded-full cursor-pointer font-bold";
+        completion.appendChild(item);
+      });
     });
-}
+  }
+  

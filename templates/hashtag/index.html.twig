@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}#{{hash.name}}
+{% endblock %}
+
+{% block body %}
+{% include('back.html.twig') %}
+
+
+<h1 class="text-center text-xl bg-gray-500">#{{hash.name}}</h1>
+<div class="flex flex-col justify-center gap-x-5 ">
+{% if hash.getPosts() is not empty %}
+<div class="p-4 border flex-1">
+<h2 class="text-2xl font-bold underline-offset-2 underline">Tweets</h2>
+{% for post in hash.getPosts() %}
+    {{ component('post', {post: post, showcomments: 1, redirect: 1}) }}
+{% endfor %}
+</div>
+{% endif %}
+{% if hash.getCommentaires() is not empty%}
+<div class="p-4 border flex-1">
+<h2 class="text-2xl font-bold underline-offset-2 underline">Réponses</h2>
+{% for user in hash.getCommentaires() %}
+    {{ component('commentaire', {commentaire: user, redirect: 1}) }}
+{% endfor %}
+</div>
+{% endif %}
+</div>
+{% endblock %}

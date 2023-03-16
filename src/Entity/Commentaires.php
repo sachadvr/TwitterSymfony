@@ -37,10 +37,14 @@ class Commentaires
     #[ORM\JoinTable(name: 'likes_commentaires')]
     private Collection $likes;
 
+    #[ORM\ManyToMany(targetEntity: Hashtag::class, inversedBy: 'commentaires')]
+    private Collection $hashtags;
+
     public function __construct()
     {
         $this->retweet = new ArrayCollection();
         $this->likes = new ArrayCollection();
+        $this->hashtags = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -142,6 +146,30 @@ class Commentaires
     public function removeLike(User $like): self
     {
         $this->likes->removeElement($like);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Hashtag>
+     */
+    public function getHashtags(): Collection
+    {
+        return $this->hashtags;
+    }
+
+    public function addHashtag(Hashtag $hashtag): self
+    {
+        if (!$this->hashtags->contains($hashtag)) {
+            $this->hashtags->add($hashtag);
+        }
+
+        return $this;
+    }
+
+    public function removeHashtag(Hashtag $hashtag): self
+    {
+        $this->hashtags->removeElement($hashtag);
 
         return $this;
     }
