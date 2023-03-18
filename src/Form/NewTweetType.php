@@ -45,7 +45,7 @@ class NewTweetType extends AbstractType
             ->add('allowcommentaire', CheckboxType::class, [
                 'label' => 'Autoriser les commentaires',
                 'attr' => [
-                    'class' => 'text-[var(--text-color)]',
+                    'class' => 'text-[var(--text-color)] hidden',
                     'checked' => true,
                 ],
                 'mapped' => false,
