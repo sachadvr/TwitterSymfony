@@ -48,3 +48,27 @@
   * {
     font-size: clamp(.9rem, 1.2vw, 1.2rem);
   }
+  #new_tweet_allowcommentaire {
+    /* Add if not using autoprefixer */
+    -webkit-appearance: none;
+    appearance: none;
+    /* For iOS < 15 to remove gradient background */
+    background-color: #fff;
+    /* Not removed via appearance */
+    margin: 0;
+  }
+
+#new_tweet_allowcommentaire:not(:checked) + label {
+  position: relative;
+}
+
+#new_tweet_allowcommentaire:not(:checked) + label:before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: rotate(45deg);
+  top: 0;
+  background-color: red;
+  width: 1px;
+  height: 105%;
+}

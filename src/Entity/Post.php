@@ -46,6 +46,9 @@ class Post
     #[ORM\ManyToMany(targetEntity: Hashtag::class, inversedBy: 'posts')]
     private Collection $hashtags;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $allowcommentaire = true;
+
 
     public function __construct()
     {
@@ -228,6 +231,18 @@ class Post
     public function removeHashtag(Hashtag $hashtag): self
     {
         $this->hashtags->removeElement($hashtag);
+
+        return $this;
+    }
+
+    public function isAllowingcommentaires(): ?bool
+    {
+        return $this->allowcommentaire;
+    }
+
+    public function SetAllowCommentaire(?bool $allowcommentaire): self
+    {
+        $this->allowcommentaire = $allowcommentaire;
 
         return $this;
     }

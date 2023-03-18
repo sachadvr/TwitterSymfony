@@ -31,18 +31,20 @@ Posts #{{ post.id }}
     
          {% if (post.createdBy == app.user) or (is_granted('ROLE_ADMIN')) %} 
          <form class="relative" action="{{ path('app_post_delete', {'id': post.id}) }}" method="POST" onsubmit="return confirm('Etes-vous sûr de vouloir supprimer définitivement ce tweet ?');">
-            <button class="max-sm:ml-2 max-sm:mt-2 px-1 font-bold top-4 right-4 text-red-500 border border-red-500 sm:absolute text-xs z-10 flex items-center gap-1">
+            <button class="px-1 font-bold top-4 right-4 text-red-800 border border-red-800 absolute text-xs z-10 flex items-center gap-1">
             {% if is_granted('ROLE_ADMIN') %}
             [<i class="fas fa-user-shield text-xs"></i>]
             {% else %}
             [<i class="fas fa-trash-alt text-xs"></i>]
             {% endif %}
-            Supprimer le tweet</button>
+            <span class="max-sm:hidden text-xs">
+            Supprimer le tweet</span></button>
         </form>
         {% endif %}
         {{ component('post', {post: post, showcomments: 0, redirect: 0}) }}
 
             {% endif %}
+            {% if not post.isAllowingcommentaires %}
         <div class="border border-[var(--border-color)] p-2">
         {{form_start(form)}}
     
@@ -62,15 +64,22 @@ Posts #{{ post.id }}
     </div>
             {{form_end(form)}}
             </div>
+            {% endif %}
         <div class="ml-8 mr-1 flex flex-col p-3 relative">
             {% for commentaire in commentaires %}
                 <div class="my-1">
                 {{ component('commentaires', {commentaire: commentaire, redirect: 0}) }}
                 </div>
             {% else %}
+                {% if post.isAllowingcommentaires %}
+                <div class="text-center">
+                    Les commentaires sont désactivés pour ce tweet.
+                </div>
+                {% else %}
                 <div class="text-center">
                     Il n'y a pas encore de réponses, soyez le premier à en laisser une !
                 </div>
+                {% endif %}
             {% endfor %}
     </div>
     </div>

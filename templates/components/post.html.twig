@@ -36,7 +36,9 @@
                 {% endif %}
                 {% endif %}
                 
-            <a href="{{ path('app_profile', {'username': post.createdBy.username}) }}" class="w-fit showFollow font-bold">@{{ post.createdBy.username }} 
+            <a href="{{ path('app_profile', {'username': post.createdBy.username}) }}" class="w-fit showFollow font-bold"
+            data-tooltip="Suivre"
+            >@{{ post.createdBy.username }} 
              {% include '/components/_following.html.twig' with {'createdBy': post.createdBy} %}
     </a>
             {% if post.image != null %}

@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Post;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -39,6 +41,16 @@ class NewTweetType extends AbstractType
                         'maxMessage' => 'Votre tweet ne doit pas dépasser {{ limit }} caractères',
                     ]),
                 ],
+            ])
+            ->add('allowcommentaire', CheckboxType::class, [
+                'label' => 'Autoriser les commentaires',
+                'attr' => [
+                    'class' => 'text-[var(--text-color)]',
+                    'checked' => true,
+                ],
+                'mapped' => false,
+                'required' => false,
+
             ])
             ->add('image', FileType::class, [
                 'label' => false,

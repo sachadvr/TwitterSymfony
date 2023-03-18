@@ -11,13 +11,13 @@ onclick="document.querySelector('.commentaire_area').focus(); document.querySele
     <div class="flex-1">
     {% if (commentaire.createdBy == app.user) or (is_granted('ROLE_ADMIN')) %} 
          <form action="{{ path('app_comment_delete', {'id': commentaire.id}) }}" method="POST" onsubmit="return confirm('Etes-vous sûr de vouloir supprimer définitivement ce tweet ?');">
-            <button class="px-1 f1nt-bold top-2 right-2 text-red-500 border border-red-500 sm:absolute text-xs xs flex items-center gap-1 z-10">
+            <button class="px-1 f1nt-bold top-2 right-2 text-red-800 border border-red-800 absolute text-xs xs flex items-center gap-1 z-10">
              {% if is_granted('ROLE_ADMIN') %}
             [<i class="fas fa-user-shield text-xs"></i>]
   
              {% else %}
             [<i class="fas fa-trash-alt text-xs"></i>]
-            {% endif %}Supprimer le tweet</button>
+            {% endif %}<span class="max-sm:hidden text-xs">Supprimer le tweet</span></button>
         </form>
     {% endif %}
     <h2 class="text-sm">@{{  commentaire.createdBy.username }} 

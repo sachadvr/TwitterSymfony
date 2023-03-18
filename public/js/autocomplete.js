@@ -1,7 +1,7 @@
 function getCompletion(id, usersList, hashtagsList, userid) {
+    window.addEventListener('DOMContentLoaded', () => {
     const tweetInput = document.getElementById(id);
     const completion = document.getElementById(userid);
-    console.log(tweetInput, completion);
     if (!tweetInput) return;
     if (!completion) return;
   
@@ -55,4 +55,7 @@ function getCompletion(id, usersList, hashtagsList, userid) {
       });
     });
   }
+    );
+    }
+    
   

@@ -2,6 +2,7 @@
 
 //onload
 function imagePreview() {
+    window.addEventListener('DOMContentLoaded', () => {
     var new_tweet_image = document.getElementById("new_tweet_image");
     if (new_tweet_image == null) return;
     new_tweet_image.addEventListener("change", function() {
@@ -16,11 +17,11 @@ function imagePreview() {
             label.innerHTML = ""
             image.src = reader.result;
             image.onclick = () => {reload()};
-            image.className = "w-16 h-16 rounded-lg object-contain bg-black cursor-pointer aspect-square";
+            image.className = "w-8 h-8 rounded-lg object-contain bg-black cursor-pointer object-cover";
             preview.appendChild(image);
 
         }
 
     });
-
+});
 }

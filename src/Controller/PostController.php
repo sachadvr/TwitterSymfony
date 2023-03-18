@@ -97,7 +97,7 @@ class PostController extends AbstractController
             $post->setCreatedAt(new \DateTimeImmutable());
             $post->setLastModified(new \DateTimeImmutable());
             $post->setCreatedBy($this->getUser());
-            
+            $post->SetAllowCommentaire(!$form->get('allowcommentaire')->getData());
             $image = $form->get('image')->getData();
 
             if ($image) {
@@ -162,7 +162,7 @@ class PostController extends AbstractController
     {
     
         $post = $this->em->getRepository(Post::class)->find($id);
-        if (!$post) return $this->redirectToRoute('app_post');
+        if (!$post) return $this->redirect($this->generateUrl('app_post'));
 
         $username_list = null;
         $hashtag_list = null;
