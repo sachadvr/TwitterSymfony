@@ -32,13 +32,8 @@ Posts #{{ post.id }}
          {% if (post.createdBy == app.user) or (is_granted('ROLE_ADMIN')) %} 
          <form class="relative" action="{{ path('app_post_delete', {'id': post.id}) }}" method="POST" onsubmit="return confirm('Etes-vous sûr de vouloir supprimer définitivement ce tweet ?');">
             <button class="px-1 font-bold top-4 right-4 text-red-800 border border-red-800 absolute text-xs z-10 flex items-center gap-1">
-            {% if is_granted('ROLE_ADMIN') %}
-            [<i class="fas fa-user-shield text-xs"></i>]
-            {% else %}
-            [<i class="fas fa-trash-alt text-xs"></i>]
-            {% endif %}
-            <span class="max-sm:hidden text-xs">
-            Supprimer le tweet</span></button>
+            <i class="fas fa-trash-alt text-xs"></i>
+            </button>
         </form>
         {% endif %}
         {{ component('post', {post: post, showcomments: 0, redirect: 0}) }}

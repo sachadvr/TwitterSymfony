@@ -72,3 +72,8 @@
   width: 1px;
   height: 105%;
 }
+  
+input[type="checkbox"]:not(:checked) + label:after {
+  content: '';
+  visibility: hidden;
+}

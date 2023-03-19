@@ -39,13 +39,13 @@ class PostController extends AbstractController
     {
         $post = $this->em->getRepository(Post::class)->findBy([], ['lastModified' => 'DESC']);
 
-        // test
-
-
         $username_list = null;
         $hashtag_list = null;
         if ($this->getUser()) {
-            
+            $ban = $ur->findByIdentifier($this->getUser()->getUserIdentifier());
+            if (array_search('ROLE_BANNED', $ban->getRoles()) !== false) {
+                return $this->render('/post/ban.html.twig');
+            }
             $username_list = $this->em->getRepository(User::class)->findAll();
             $username_list = array_map(function($user) {
                 return $user->getUsername();
