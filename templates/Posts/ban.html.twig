@@ -1,8 +1,18 @@
+{% extends 'base.html.twig' %}
+{% block title %}Banni{% endblock %}
+{% block body %}
 <div>
-    <h1 class="text-2xl font-bold text-center text-white bg-red-500">
+<div class="p-5 py-10 bg-red-500 mb-5">
+    <h1 class="text-2xl font-bold text-center text-white ">
         Bonjour, {{user.username}} tu as été banni du site.
     </h1>
-    <p class="text-center text-white bg-red-500">
-        Tu as été banni pour la raison suivante : {{user.bio}}
+    <p class="text-center text-white ">
+        Tu as été banni pour ne pas avoir respecté les règles d'utilisation du site.
     </p>
+    <p class="text-center text-white ">
+        Tu peux contacter l'administrateur du site pour plus d'informations.
+    </p>
+    </div>
 </div>
+{% endblock %}
+

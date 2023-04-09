@@ -40,6 +40,7 @@ class UserCrudController extends AbstractCrudController
                 ->setChoices([
                     'Utilisateur' => 'ROLE_USER',
                     'Administrateur' => 'ROLE_ADMIN',
+                    'Banni' => 'ROLE_BANNED',
                 ])
                 ->renderExpanded(true),
             TextField::new('password', 'Mot de passe')

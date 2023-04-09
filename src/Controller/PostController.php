@@ -40,11 +40,16 @@ class PostController extends AbstractController
         $post = $this->em->getRepository(Post::class)->findBy([], ['lastModified' => 'DESC']);
 
         $username_list = null;
+        $ban = null;
         $hashtag_list = null;
         if ($this->getUser()) {
-            $ban = $ur->findByIdentifier($this->getUser()->getUserIdentifier());
-            if (array_search('ROLE_BANNED', $ban->getRoles()) !== false) {
-                return $this->render('/post/ban.html.twig');
+            if ($this->isGranted('ROLE_BANNED')) {
+                $ban = 'Désolé, vous avez été banni de notre site. Votre compte est désormais inutilisable.';
+                return $this->render('Posts/ban.html.twig', [
+                    'ban' => $ban,
+                    'user' => $this->getUser(),
+                ]);
+
             }
             $username_list = $this->em->getRepository(User::class)->findAll();
             $username_list = array_map(function($user) {
@@ -147,11 +152,11 @@ class PostController extends AbstractController
         return $this->render('Posts/post.html.twig', array(
             'posts' => $post,
             'form' => $form->createView(),
-            'errors' => $form->getErrors(true, true),
+        'errors' => empty($form->getErrors(true, true)) ? $form->getErrors(true, true) : $ban,
             'tabs' => ($request->query->get('tabs') == null) ? false : true,
             'username_list' => $username_list,
             'search' => $search->createView(),
-            'searchdata' => $search->getData()['search'] ?? "test",
+            'searchdata' => $search->getData()['search'] ?? "",
             'hashtag_list' => $hashtag_list,
 
         ));
