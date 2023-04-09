@@ -37,7 +37,7 @@ Posts #{{ post.id }}
         {{ component('post', {post: post, showcomments: 0, redirect: 0}) }}
 
             {% endif %}
-            {% if not post.isAllowingcommentaires %}
+            {% if post.isAllowingcommentaires %}
         <div class="border border-[var(--border-color)] p-2">
         {{form_start(form)}}
     
@@ -64,7 +64,7 @@ Posts #{{ post.id }}
                 {{ component('commentaires', {commentaire: commentaire, redirect: 0}) }}
                 </div>
             {% else %}
-                {% if post.isAllowingcommentaires %}
+                {% if not post.isAllowingcommentaires %}
                 <div class="text-center">
                     Les commentaires sont désactivés pour ce tweet.
                 </div>

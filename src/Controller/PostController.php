@@ -40,7 +40,6 @@ class PostController extends AbstractController
         $post = $this->em->getRepository(Post::class)->findBy([], ['lastModified' => 'DESC']);
 
         $username_list = null;
-        $ban = null;
         $hashtag_list = null;
         if ($this->getUser()) {
             if ($this->isGranted('ROLE_BANNED')) {
@@ -102,7 +101,7 @@ class PostController extends AbstractController
             $post->setCreatedAt(new \DateTimeImmutable());
             $post->setLastModified(new \DateTimeImmutable());
             $post->setCreatedBy($this->getUser());
-            $post->SetAllowCommentaire(!$form->get('allowcommentaire')->getData());
+            $post->SetAllowCommentaire($form->get('allowcommentaire')->getData());
             $image = $form->get('image')->getData();
 
             if ($image) {
@@ -152,13 +151,12 @@ class PostController extends AbstractController
         return $this->render('Posts/post.html.twig', array(
             'posts' => $post,
             'form' => $form->createView(),
-        'errors' => empty($form->getErrors(true, true)) ? $form->getErrors(true, true) : $ban,
+            'errors' => $form->getErrors(true),
             'tabs' => ($request->query->get('tabs') == null) ? false : true,
             'username_list' => $username_list,
             'search' => $search->createView(),
             'searchdata' => $search->getData()['search'] ?? "",
             'hashtag_list' => $hashtag_list,
-
         ));
     }
 
