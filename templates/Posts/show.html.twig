@@ -14,12 +14,10 @@ Posts #{{ post.id }}
 {{ parent() }}
 <script src="{{ asset('js/basic.js') }}"></script>
 <script src="{{ asset('js/autocomplete.js') }}"></script>
+	<script>
+		getCompletion("new_commentaires_contenu", {{ username_list | json_encode | raw }}, {{ hashtag_list | json_encode | raw }}, "users");
+	</script>
 
-<script>
-    window.onload = function() {
-        getCompletion("new_commentaires_contenu", {{ username_list | json_encode | raw }}, {{ hashtag_list | json_encode | raw }},"users");
-    }
-</script>
 {% endblock %}
 
 {% block body %}
